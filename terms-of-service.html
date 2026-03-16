@@ -194,14 +194,14 @@
   <!-- MODALS -->
   <div id="loginModal" class="fixed inset-0 z-[60] hidden items-center justify-center">
     <div class="absolute inset-0 bg-dark-900/60 backdrop-blur-sm" onclick="closeModal('loginModal')"></div>
-    <div class="relative bg-white rounded-[2rem] p-10 w-full max-w-md mx-4 shadow-2xl z-10 text-center">
-      <h2 class="text-2xl font-extrabold text-dark-900 mb-3">Create an account to continue</h2>
-      <p class="text-gray-500 mb-8 text-base leading-relaxed max-w-[280px] mx-auto">
+    <div class="relative bg-white rounded-[2rem] p-8 w-full max-w-md mx-4 shadow-2xl z-10 text-center">
+      <h2 class="text-xl font-extrabold text-dark-900 mb-3">Create an account to continue</h2>
+      <p class="text-gray-500 mb-8 text-sm leading-relaxed max-w-[280px] mx-auto">
         Your progress is saved. Create an account to chat, view full details, and move forward.
       </p>
       
       <div class="space-y-3">
-        <button onclick="closeModal('loginModal'); openModal('signupModal')" class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl transition hover:bg-primary-700 shadow-lg shadow-primary-200 text-sm">
+        <button onclick="closeModal('loginModal'); openModal('signupModal')" class="w-full bg-primary-600 text-white font-bold py-3 rounded-xl transition hover:bg-primary-700 shadow-lg shadow-primary-200 text-[13px]">
           Create Account
         </button>
         <button onclick="closeModal('loginModal')" class="w-full text-gray-500 font-bold py-2 text-xs hover:text-dark-900 transition">
@@ -213,17 +213,17 @@
 
   <div id="signupModal" class="fixed inset-0 z-[60] hidden items-center justify-center">
     <div class="absolute inset-0 bg-dark-900/60 backdrop-blur-sm" onclick="closeModal('signupModal')"></div>
-    <div class="relative bg-white rounded-[2rem] p-10 w-full max-w-md mx-4 shadow-2xl z-10 text-center">
-      <button onclick="closeModal('signupModal')" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition">
+    <div class="relative bg-white rounded-[2rem] p-8 w-full max-w-md mx-4 shadow-2xl z-10 text-center">
+ beach      <button onclick="closeModal('signupModal')" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
       </button>
-      <h2 class="text-2xl font-extrabold text-dark-900 mb-3">Join Donau</h2>
+      <h2 class="text-xl font-extrabold text-dark-900 mb-3">Join Donau</h2>
       <p class="text-gray-500 mb-6 text-sm font-medium">Access structured European demand today.</p>
       <form onsubmit="event.preventDefault();closeModal('signupModal')" class="space-y-3">
-        <input type="text" placeholder="Company Name" class="w-full px-4 py-3.5 border border-gray-100 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-sm">
-        <input type="email" placeholder="Email" class="w-full px-4 py-3.5 border border-gray-100 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-sm">
-        <input type="password" placeholder="Password" class="w-full px-4 py-3.5 border border-gray-100 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-sm">
-        <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl transition hover:bg-primary-700 shadow-lg shadow-primary-200 text-sm mt-3">Create Account</button>
+        <input type="text" placeholder="Company Name" class="w-full px-4 py-3 border border-gray-100 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-[13px]">
+        <input type="email" placeholder="Email" class="w-full px-4 py-3 border border-gray-100 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-[13px]">
+        <input type="password" placeholder="Password" class="w-full px-4 py-3 border border-gray-100 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-[13px]">
+        <button class="w-full bg-primary-600 text-white font-bold py-3 rounded-xl transition hover:bg-primary-700 shadow-lg shadow-primary-200 text-[13px] mt-3">Create Account</button>
       </form>
     </div>
   </div>
