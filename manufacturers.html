@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donau — Access structured European product demand</title>
+  <meta name="description" content="Receive verified briefs. Submit proposals. Grow your production pipeline. The infrastructure layer for European contract manufacturing.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { inter: ['Inter', 'sans-serif'] },
+          colors: {
+            primary: { 50:'#EFF6FF',100:'#DBEAFE',200:'#BFDBFE',300:'#93C5FD',400:'#60A5FA',500:'#3B82F6',600:'#2563EB',700:'#1D4ED8' },
+            dark: { 800:'#1E293B',900:'#0F172A' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    html { scroll-behavior: smooth; }
+    .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .btn-primary { transition: all 0.3s ease; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,99,235,0.35); }
+    .btn-outline { transition: all 0.3s ease; }
+    .btn-outline:hover { background: #F8FAFC; transform: translateY(-2px); }
+    .nav-link { position: relative; }
+    .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:#3B82F6; transition:width 0.3s ease; }
+    .nav-link.active::after { width:100%; }
+    .nav-link:hover::after { width:100%; }
+    
+    /* Grid Background */
+    .grid-bg {
+      background-image: 
+        linear-gradient(to right, rgba(226, 232, 240, 0.4) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(226, 232, 240, 0.4) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .data-dot {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #93C5FD;
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+    
+    .status-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Brief Detail Overlay */
+    .brief-detail-overlay {
+      position: fixed;
+      inset: 0;
+      background: white;
+      z-index: 50;
+      transform: translateY(100%);
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+    }
+    .brief-detail-overlay.active {
+      transform: translateY(0);
+    }
+
+    /* Stepper Styling */
+    .stepper-arrow {
+      position: relative;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      padding-left: 32px;
+      padding-right: 16px;
+      background: #F8FAFC;
+      color: #94A3B8;
+      font-size: 13px;
+      font-weight: 600;
+      clip-path: polygon(0% 0%, calc(100% - 15px) 0%, 100% 50%, calc(100% - 15px) 100%, 0% 100%, 15px 50%);
+      margin-left: -15px;
+    }
+    .stepper-arrow:first-child {
+      clip-path: polygon(0% 0%, calc(100% - 15px) 0%, 100% 50%, calc(100% - 15px) 100%, 0% 100%);
+      margin-left: 0;
+      padding-left: 24px;
+    }
+    .stepper-arrow.active {
+      background: #EFF6FF;
+      color: #3B82F6;
+    }
+    .stepper-arrow.completed {
+      background: #3B82F6;
+      color: white;
+    }
+    .stepper-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: white;
+      color: #3B82F6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+    }
+    .stepper-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1.5px solid currentColor;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+      font-size: 11px;
+    }
+    
+    .detail-tab {
+      padding: 12px 4px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #64748B;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .detail-tab.active {
+      color: #3B82F6;
+      border-bottom-color: #3B82F6;
+    }
+  </style>
+  <script>
+    function openModal(id) { const m = document.getElementById(id); m.classList.remove('hidden'); m.classList.add('flex'); document.body.style.overflow = 'hidden'; }
+    function closeModal(id) { const m = document.getElementById(id); m.classList.add('hidden'); m.classList.remove('flex'); document.body.style.overflow = ''; }
+    
+    function openBriefDetail() {
+      const detail = document.getElementById('briefDetail');
+      detail.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeBriefDetail() {
+      const detail = document.getElementById('briefDetail');
+      detail.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Fade-up animation
+    window.addEventListener('DOMContentLoaded', () => {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); obs.unobserve(entry.target); } });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+    });
+  </script>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md z-40 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+      <div class="flex items-center gap-8">
+        <a href="index.html">
+          <img src="assets/logo.svg" alt="Donau Logo" class="h-8 w-auto">
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="brands.html" class="nav-link text-sm font-medium text-gray-600 hover:text-gray-900">Brands</a>
+          <a href="manufacturers.html" class="nav-link active text-sm font-medium text-primary-600">Manufacturers</a>
+          <a href="contact.html" class="nav-link text-sm font-medium text-gray-600 hover:text-gray-900 uppercase tracking-wider font-bold">Contact</a>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <button onclick="openModal('loginModal')" class="btn-primary bg-primary-600 text-white text-sm font-semibold px-5 py-2 rounded-lg">Log In</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="relative pt-32 pb-20 px-6 overflow-hidden">
+    <div class="absolute inset-0 grid-bg -z-10"></div>
+    <!-- Data Dots -->
+    <div class="data-dot" style="top: 25%; left: 8%;"></div>
+    <div class="data-dot" style="top: 45%; left: 82%;"></div>
+    <div class="data-dot" style="top: 75%; left: 12%;"></div>
+    <div class="data-dot" style="top: 35%; left: 58%;"></div>
+    <div class="data-dot" style="top: 85%; left: 72%;"></div>
+    
+    <div class="max-w-4xl mx-auto text-center fade-up">
+      <h1 class="text-4xl md:text-5xl lg:text-[3.6rem] font-extrabold leading-tight tracking-tight text-dark-900 group">Access structured European<br>product demand.</h1>
+      <p class="mt-6 text-gray-500 text-lg max-w-2xl mx-auto">Receive verified briefs. Submit proposals. Grow your production pipeline.</p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <button onclick="openModal('signupModal')" class="btn-primary bg-primary-600 text-white font-semibold px-7 py-3 rounded-lg text-sm shadow-lg shadow-primary-200">Join as a Manufacturer</button>
+        <button onclick="document.getElementById('briefs').scrollIntoView({behavior:'smooth'})" class="btn-outline border border-gray-200 bg-white text-gray-700 font-semibold px-7 py-3 rounded-lg text-sm">Explore Briefs</button>
+      </div>
+
+      <!-- Trust Ribbon (Added) -->
+      <div class="mt-16 pt-8 border-t border-gray-100/50 flex flex-wrap justify-center gap-x-8 gap-y-4">
+        <div class="flex items-center gap-2.5 text-dark-900 font-medium text-[13px]">
+          <div class="w-6 h-6 rounded-full bg-primary-50 flex items-center justify-center">
+            <svg class="w-3.5 h-3.5 text-primary-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          Certified European manufacturers
+        </div>
+        <div class="flex items-center gap-2.5 text-dark-900 font-medium text-[13px]">
+          <div class="w-6 h-6 rounded-full bg-primary-50 flex items-center justify-center">
+            <svg class="w-3.5 h-3.5 text-primary-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+          </div>
+          GMP & ISO compliant
+        </div>
+        <div class="flex items-center gap-2.5 text-dark-900 font-medium text-[13px]">
+          <div class="w-6 h-6 rounded-full bg-primary-50 flex items-center justify-center">
+            <svg class="w-3.5 h-3.5 text-primary-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          </div>
+          Structured RFQ process
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE BRIEFS SECTION -->
+  <section id="briefs" class="py-24 px-6 bg-gray-50">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16 fade-up">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-dark-900">Explore Product Briefs</h2>
+        <p class="mt-4 text-gray-500 text-lg">Verified manufacturing opportunities currently live on the Donau platform.</p>
+      </div>
+
+      <div class="space-y-6 fade-up">
+        <!-- Brief Card 1 -->
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition card-hover">
+          <div class="flex flex-wrap justify-between items-start gap-4 mb-8">
+            <div class="flex-1">
+              <div class="flex items-center gap-4 mb-1">
+                <h3 class="text-xl font-bold text-dark-900">Premium Vitamin D3 Supplement</h3>
+                <span class="status-badge bg-indigo-50 text-indigo-600">Verified</span>
+              </div>
+              <p class="text-xs text-gray-400 font-bold tracking-tight">Ref ID: #GW-D3-2026</p>
+            </div>
+            <div class="flex gap-3">
+              <button class="px-5 py-2.5 bg-gray-50 text-gray-500 font-bold text-sm rounded-xl hover:bg-gray-100 transition whitespace-nowrap">Not Interested</button>
+              <button onclick="openBriefDetail()" class="px-5 py-2.5 bg-primary-600 text-white font-bold text-sm rounded-xl hover:bg-primary-700 transition shadow-lg shadow-primary-200 whitespace-nowrap">View Brief</button>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Category</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                Dietary Supplements
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Price Range</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                £3000 - £8000
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Quantity</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                400 units
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Date</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                2026-04-10
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-end gap-3 pt-6 border-t border-gray-50">
+            <button class="px-6 py-2.5 bg-gray-50 text-gray-500 font-bold text-sm rounded-xl hover:bg-gray-100 transition">Not Interested</button>
+            <button onclick="openBriefDetail()" class="px-6 py-2.5 bg-primary-600 text-white font-bold text-sm rounded-xl hover:bg-primary-700 transition shadow-lg shadow-primary-200">View Brief</button>
+          </div>
+        </div>
+
+        <!-- Brief Card 2 -->
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition card-hover opacity-90">
+          <div class="flex flex-wrap justify-between items-start gap-4 mb-8">
+            <div class="flex-1">
+              <div class="flex items-center gap-4 mb-1">
+                <h3 class="text-xl font-bold text-dark-900">Organic Pea Protein Powder</h3>
+                <span class="status-badge bg-blue-50 text-blue-600">In Discussion</span>
+              </div>
+              <p class="text-xs text-gray-400 font-bold tracking-tight">Ref ID: #GW-PEA-2026</p>
+            </div>
+            <div class="flex gap-3">
+              <button class="px-5 py-2.5 bg-gray-50 text-gray-500 font-bold text-sm rounded-xl hover:bg-gray-100 transition whitespace-nowrap">Not Interested</button>
+              <button onclick="openBriefDetail()" class="px-5 py-2.5 bg-primary-600 text-white font-bold text-sm rounded-xl hover:bg-primary-700 transition shadow-lg shadow-primary-200 whitespace-nowrap">View Brief</button>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Category</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                Healthy Foods
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Price Range</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                £12000 - £25000
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Quantity</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                2,000 units
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Date</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                2026-03-28
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Brief Card 3 -->
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition card-hover opacity-80">
+          <div class="flex flex-wrap justify-between items-start gap-4 mb-8">
+            <div class="flex-1">
+              <div class="flex items-center gap-4 mb-1">
+                <h3 class="text-xl font-bold text-dark-900">Recycled PET Bottle 500ml</h3>
+                <span class="status-badge bg-green-50 text-green-600">Completed</span>
+              </div>
+              <p class="text-xs text-gray-400 font-bold tracking-tight">Ref ID: #GW-PET-2026</p>
+            </div>
+            <div class="flex gap-3">
+              <button class="px-5 py-2.5 bg-gray-50 text-gray-500 font-bold text-sm rounded-xl hover:bg-gray-100 transition whitespace-nowrap">Not Interested</button>
+              <button onclick="openBriefDetail()" class="px-5 py-2.5 bg-primary-600 text-white font-bold text-sm rounded-xl hover:bg-primary-700 transition shadow-lg shadow-primary-200 whitespace-nowrap">View Brief</button>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Category</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                Packaging
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Price Range</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                £45000 - £60000
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Quantity</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                50,000 units
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Date</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                2026-02-15
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Brief Card 4 -->
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition card-hover opacity-70">
+          <div class="flex flex-wrap justify-between items-start gap-4 mb-8">
+            <div class="flex-1">
+              <div class="flex items-center gap-4 mb-1">
+                <h3 class="text-xl font-bold text-dark-900">Marine Collagen Peptides</h3>
+                <span class="status-badge bg-cyan-50 text-cyan-600">Proposal Submitted</span>
+              </div>
+              <p class="text-xs text-gray-400 font-bold tracking-tight">Ref ID: #GW-COL-2026</p>
+            </div>
+            <div class="flex gap-3">
+              <button class="px-5 py-2.5 bg-gray-50 text-gray-500 font-bold text-sm rounded-xl hover:bg-gray-100 transition whitespace-nowrap">Not Interested</button>
+              <button onclick="openBriefDetail()" class="px-5 py-2.5 bg-primary-600 text-white font-bold text-sm rounded-xl hover:bg-primary-700 transition shadow-lg shadow-primary-200 whitespace-nowrap">View Status</button>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Category</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                Personal Care
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Price Range</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                £8000 - £15000
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Quantity</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                1,200 units
+              </div>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">Date</p>
+              <div class="flex items-center gap-2 text-dark-800 font-semibold">
+                <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                2026-03-05
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS (MANUFACTURER VERSION) -->
+  <section id="howItWorks" class="py-24 px-6 bg-white">
+    <div class="max-w-5xl mx-auto text-center mb-16 fade-up">
+      <h2 class="text-4xl md:text-5xl font-extrabold text-dark-900 leading-tight">How manufacturers grow</h2>
+    </div>
+    <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-10 fade-up relative">
+      <!-- Connection Trail -->
+      <div class="absolute top-8 left-[16.6%] right-[16.6%] h-px border-t border-dashed border-primary-200 hidden md:block z-0 transform translate-y-[-50%]"></div>
+      
+      <div class="text-center group relative z-10 transition hover:scale-105 duration-300">
+        <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-primary-600 flex items-center justify-center transition shadow-lg shadow-primary-200">
+          <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+        </div>
+        <p class="text-primary-600 text-[11px] font-bold mb-1 uppercase tracking-widest">Step 1</p>
+        <h4 class="font-bold text-dark-900 mb-2">Verification</h4>
+        <p class="text-gray-500 text-sm">Your certificates and capabilities are verified and visible to brands.</p>
+      </div>
+      <div class="text-center group relative z-10 transition hover:scale-105 duration-300">
+        <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-primary-600 flex items-center justify-center transition shadow-lg shadow-primary-200">
+          <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        </div>
+        <p class="text-primary-600 text-[11px] font-bold mb-1 uppercase tracking-widest">Step 2</p>
+        <h4 class="font-bold text-dark-900 mb-2">Structured Briefs</h4>
+        <p class="text-gray-500 text-sm">No vague requests. Every brief comes with clear specifications.</p>
+      </div>
+      <div class="text-center group relative z-10 transition hover:scale-105 duration-300">
+        <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-primary-600 flex items-center justify-center transition shadow-lg shadow-primary-200">
+          <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        </div>
+        <p class="text-primary-600 text-[11px] font-bold mb-1 uppercase tracking-widest">Step 3</p>
+        <h4 class="font-bold text-dark-900 mb-2">Direct Proposals</h4>
+        <p class="text-gray-500 text-sm">Submit proposals directly. No intermediaries, no hidden fees.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- READY TO LAUNCH -->
+  <section class="py-24 px-6 bg-gray-50">
+    <div class="max-w-3xl mx-auto text-center fade-up">
+      <h2 class="text-4xl md:text-5xl font-extrabold text-dark-900 leading-tight">Ready to launch your business?</h2>
+      <p class="mt-6 text-gray-500 text-lg max-w-xl mx-auto">The manufacturing infrastructure layer for European commerce.</p>
+      <div class="mt-10">
+        <button onclick="openModal('signupModal')" class="btn-primary bg-primary-600 text-white font-bold px-10 py-4 rounded-xl shadow-xl shadow-primary-200 text-sm">Join as a Manufacturer</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <!-- BRIEF DETAIL VIEW OVERLAY -->
+  <div id="briefDetail" class="brief-detail-overlay">
+    <div class="max-w-6xl mx-auto px-6 py-12">
+      <!-- Top Action Bar -->
+      <div class="flex justify-between items-start mb-8">
+        <div>
+          <button onclick="closeBriefDetail()" class="flex items-center gap-2 text-gray-500 hover:text-dark-900 font-semibold text-sm transition transition mb-6 group">
+            <svg class="w-5 h-5 transition transform group-hover:-translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+            Back to opportunities
+          </button>
+          <h2 class="text-3xl font-extrabold text-dark-900 mb-4">Premium Vitamin D3 Supplement</h2>
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500 font-medium">
+            <span class="text-primary-600 font-bold">#BR12345678</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+            <span>Evergreenapparel.co</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+            <span>Dietary Supplements</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+            <span>Created 12/01/2026</span>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <button onclick="closeBriefDetail()" class="px-6 py-2.5 border border-primary-200 text-primary-600 font-bold text-sm rounded-xl hover:bg-primary-50 transition">Not Proceed</button>
+          <button onclick="openModal('signupModal')" class="px-6 py-2.5 bg-primary-600 text-white font-bold text-sm rounded-xl hover:bg-primary-700 transition shadow-lg shadow-primary-200">Submit Proposal</button>
+        </div>
+      </div>
+
+      <!-- Stepper -->
+      <div class="mb-12">
+        <div class="flex items-center">
+          <div class="stepper-arrow completed flex-1">
+            <div class="stepper-check">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            Invited
+          </div>
+          <div class="stepper-arrow active flex-1">
+            <div class="stepper-num">02</div>
+            In Discussion
+          </div>
+          <div class="stepper-arrow flex-1">
+            <div class="stepper-num">03</div>
+            Proposal Submitted
+          </div>
+          <div class="stepper-arrow flex-1">
+            <div class="stepper-num">04</div>
+            Matched
+          </div>
+          <div class="stepper-arrow flex-1">
+            <div class="stepper-num">05</div>
+            Completed
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="border-b border-gray-100 flex gap-8 mb-10">
+        <button class="detail-tab active flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          Overview
+        </button>
+        <button class="detail-tab flex items-center gap-2 hover:text-dark-900 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+          Proposal
+        </button>
+        <button class="detail-tab flex items-center gap-2 hover:text-dark-900 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+          Messages
+        </button>
+      </div>
+
+      <!-- Content -->
+      <div class="space-y-8">
+        <!-- Brief Description Card -->
+        <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
+          <h3 class="text-sm font-bold text-dark-900 mb-5 uppercase tracking-wider">Brief Description</h3>
+          <p class="text-gray-600 leading-relaxed font-medium">
+            We are looking for a manufacturer to produce a high-quality vitamin D3 supplement. The product should use cholecalciferol (D3) form with enhanced bioavailability. We need the product in both softgel and liquid drop formats.
+          </p>
+        </div>
+
+        <!-- Product Specifications Card -->
+        <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
+          <h3 class="text-sm font-bold text-dark-900 mb-6 uppercase tracking-wider">Product Specifications</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-gray-50/50 p-6 flex justify-between items-center rounded-2xl">
+              <span class="text-gray-400 font-bold text-xs uppercase tracking-wider">Category</span>
+              <span class="text-dark-900 font-bold">Dietary Supplements</span>
+            </div>
+            <div class="bg-gray-50/50 p-6 flex justify-between items-center rounded-2xl">
+              <span class="text-gray-400 font-bold text-xs uppercase tracking-wider">Materials</span>
+              <span class="text-dark-900 font-bold">Softgels & Liquid drops</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Brief Details Card -->
+        <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
+          <h3 class="text-sm font-bold text-dark-900 mb-6 uppercase tracking-wider">Brief Details</h3>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+              </div>
+              <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-0.5">Quantity</p>
+                <p class="text-dark-900 font-bold">400 Units</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+              <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-0.5">Budget</p>
+                <p class="text-dark-900 font-bold">£3000 - £8000</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              </div>
+              <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-0.5">Delivery Date</p>
+                <p class="text-dark-900 font-bold">2026-04-10</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-white text-gray-500 pt-16 pb-8 px-6 border-t border-gray-100">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
+      <div>
+        <a href="index.html" class="mb-4 block">
+          <img src="assets/logo.svg" alt="Donau Logo" class="h-8 w-auto">
+        </a>
+        <p class="text-sm leading-relaxed">AI-powered platform connecting brands with manufacturers.</p>
+      </div>
+      <div>
+        <h5 class="text-dark-900 font-bold mb-5 text-sm">Platform</h5>
+        <ul class="space-y-3 text-sm">
+          <li><a href="index.html" class="hover:text-primary-600 transition">Home</a></li>
+          <li><a href="brands.html" class="hover:text-primary-600 transition">Brands</a></li>
+          <li><a href="manufacturers.html" class="text-primary-600 font-semibold border-b border-primary-100">Manufacturers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="text-dark-900 font-bold mb-5 text-sm">Company</h5>
+        <ul class="space-y-3 text-sm">
+          <li><a href="contact.html" class="hover:text-primary-600 transition">Contact</a></li>
+          <li><a href="privacy-policy.html" class="hover:text-primary-600 transition">Privacy Policy</a></li>
+          <li><a href="terms-of-service.html" class="hover:text-primary-600 transition">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="text-dark-900 font-bold mb-5 text-sm">Contact</h5>
+        <p class="text-sm mb-5">info@donauai.com</p>
+        <div class="flex gap-4">
+          <a href="#" class="w-10 h-10 rounded-full bg-gray-50 hover:bg-gray-100 text-dark-800 flex items-center justify-center transition border border-gray-100">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M14 10V8a1 1 0 0 1 1-1h1V4h-2a4 4 0 0 0-4 4v2H8v3h2v10h4V13h2l1-3h-3z"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-gray-50 hover:bg-gray-100 text-dark-800 flex items-center justify-center transition border border-gray-100">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-gray-50 hover:bg-gray-100 text-dark-800 flex items-center justify-center transition border border-gray-100">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto border-t border-gray-100 pt-8 flex flex-wrap justify-between items-center text-xs font-medium">
+      <p>&copy; 2026 DonauApp</p>
+      <div class="flex items-center gap-2 text-gray-400 group cursor-pointer hover:text-dark-900 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg> English</div>
+    </div>
+  </footer>
+
+  <!-- MODALS (Redesigned) -->
+  <div id="loginModal" class="fixed inset-0 z-[60] hidden items-center justify-center">
+    <div class="absolute inset-0 bg-dark-900/60 backdrop-blur-sm" onclick="closeModal('loginModal')"></div>
+    <div class="relative bg-white rounded-[2.5rem] p-12 w-full max-w-xl mx-4 shadow-2xl z-10 text-center">
+      <h2 class="text-3xl font-extrabold text-dark-900 mb-4">Create an account to continue</h2>
+      <p class="text-gray-500 mb-10 text-lg leading-relaxed max-w-sm mx-auto">
+        Your progress is saved. Create an account to chat, view full details, and move forward.
+      </p>
+      
+      <div class="space-y-4">
+        <button onclick="closeModal('loginModal'); openModal('signupModal')" class="w-full bg-primary-600 text-white font-bold py-4 rounded-2xl transition hover:bg-primary-700 shadow-xl shadow-primary-200 text-sm">
+          Create Account
+        </button>
+        <button onclick="closeModal('loginModal')" class="w-full text-gray-500 font-bold py-2 text-sm hover:text-dark-900 transition">
+          Sign In
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="signupModal" class="fixed inset-0 z-[60] hidden items-center justify-center">
+    <div class="absolute inset-0 bg-dark-900/60 backdrop-blur-sm" onclick="closeModal('signupModal')"></div>
+    <div class="relative bg-white rounded-[2.5rem] p-12 w-full max-w-xl mx-4 shadow-2xl z-10 text-center">
+      <button onclick="closeModal('signupModal')" class="absolute top-8 right-8 text-gray-400 hover:text-gray-600 transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <h2 class="text-3xl font-extrabold text-dark-900 mb-4">Join Donau</h2>
+      <p class="text-gray-500 mb-8 text-sm font-medium">Access structured European demand today.</p>
+      <form onsubmit="event.preventDefault();closeModal('signupModal')" class="space-y-4">
+        <input type="text" placeholder="Company Name" class="w-full px-5 py-4 border border-gray-100 rounded-2xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-sm">
+        <input type="email" placeholder="Email" class="w-full px-5 py-4 border border-gray-100 rounded-2xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-sm">
+        <input type="password" placeholder="Password" class="w-full px-5 py-4 border border-gray-100 rounded-2xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-sm">
+        <button class="w-full bg-primary-600 text-white font-bold py-4 rounded-2xl transition hover:bg-primary-700 shadow-xl shadow-primary-200 text-sm mt-4">Create Account</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- BRIEF DETAIL VIEW OVERLAY -->
+  <div id="briefDetail" class="brief-detail-overlay">
+    <div class="max-w-6xl mx-auto px-6 py-12">
+      <!-- Top Action Bar -->
+      <div class="flex justify-between items-start mb-8">
+        <div>
+          <button onclick="closeBriefDetail()" class="flex items-center gap-2 text-gray-500 hover:text-dark-900 font-semibold text-sm transition transition mb-6 group">
+            <svg class="w-5 h-5 transition transform group-hover:-translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+            Back to opportunities
+          </button>
+          <h2 class="text-3xl font-extrabold text-dark-900 mb-4">Premium Vitamin D3 Supplement</h2>
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500 font-medium">
+            <span class="text-primary-600 font-bold">#BR12345678</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+            <span>Evergreenapparel.co</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+            <span>Dietary Supplements</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+            <span>Created 12/01/2026</span>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <button onclick="closeBriefDetail()" class="px-6 py-2.5 border border-primary-200 text-primary-600 font-bold text-sm rounded-xl hover:bg-primary-50 transition">Not Proceed</button>
+          <button onclick="openModal('signupModal')" class="px-6 py-2.5 bg-primary-600 text-white font-bold text-sm rounded-xl hover:bg-primary-700 transition shadow-lg shadow-primary-200">Submit Proposal</button>
+        </div>
+      </div>
+
+      <!-- Stepper -->
+      <div class="mb-12">
+        <div class="flex items-center">
+          <div class="stepper-arrow completed flex-1">
+            <div class="stepper-check">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            Invited
+          </div>
+          <div class="stepper-arrow active flex-1">
+            <div class="stepper-num">02</div>
+            In Discussion
+          </div>
+          <div class="stepper-arrow flex-1">
+            <div class="stepper-num">03</div>
+            Proposal Submitted
+          </div>
+          <div class="stepper-arrow flex-1">
+            <div class="stepper-num">04</div>
+            Matched
+          </div>
+          <div class="stepper-arrow flex-1">
+            <div class="stepper-num">05</div>
+            Completed
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="border-b border-gray-100 flex gap-8 mb-10">
+        <button class="detail-tab active flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          Overview
+        </button>
+        <button class="detail-tab flex items-center gap-2 hover:text-dark-900 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+          Proposal
+        </button>
+        <button class="detail-tab flex items-center gap-2 hover:text-dark-900 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+          Messages
+        </button>
+      </div>
+
+      <!-- Content -->
+      <div class="space-y-8">
+        <!-- Brief Description Card -->
+        <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
+          <h3 class="text-sm font-bold text-dark-900 mb-5 uppercase tracking-wider">Brief Description</h3>
+          <p class="text-gray-600 leading-relaxed font-medium">
+            We are looking for a manufacturer to produce a high-quality vitamin D3 supplement. The product should use cholecalciferol (D3) form with enhanced bioavailability. We need the product in both softgel and liquid drop formats.
+          </p>
+        </div>
+
+        <!-- Product Specifications Card -->
+        <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
+          <h3 class="text-sm font-bold text-dark-900 mb-6 uppercase tracking-wider">Product Specifications</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-gray-50/50 p-6 flex justify-between items-center rounded-2xl">
+              <span class="text-gray-400 font-bold text-xs uppercase tracking-wider">Category</span>
+              <span class="text-dark-900 font-bold">Dietary Supplements</span>
+            </div>
+            <div class="bg-gray-50/50 p-6 flex justify-between items-center rounded-2xl">
+              <span class="text-gray-400 font-bold text-xs uppercase tracking-wider">Materials</span>
+              <span class="text-dark-900 font-bold">Softgels & Liquid drops</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Brief Details Card -->
+        <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
+          <h3 class="text-sm font-bold text-dark-900 mb-6 uppercase tracking-wider">Brief Details</h3>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+              </div>
+              <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-0.5">Quantity</p>
+                <p class="text-dark-900 font-bold">400 Units</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+              <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-0.5">Budget</p>
+                <p class="text-dark-900 font-bold">£3000 - £8000</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              </div>
+              <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-0.5">Delivery Date</p>
+                <p class="text-dark-900 font-bold">2026-04-10</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
