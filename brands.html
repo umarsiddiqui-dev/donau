@@ -84,6 +84,7 @@
   <script>
     function openModal(id) { const m = document.getElementById(id); m.classList.remove('hidden'); m.classList.add('flex'); document.body.style.overflow = 'hidden'; }
     function closeModal(id) { const m = document.getElementById(id); m.classList.add('hidden'); m.classList.remove('flex'); document.body.style.overflow = ''; }
+    function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
     
     // Fade-up animation
     window.addEventListener('DOMContentLoaded', () => {
@@ -110,17 +111,17 @@
   <!-- MODALS (Redesigned) -->
   <div id="loginModal" class="fixed inset-0 z-[60] hidden items-center justify-center">
     <div class="absolute inset-0 bg-dark-900/60 backdrop-blur-sm" onclick="closeModal('loginModal')"></div>
-    <div class="relative bg-white rounded-[2rem] p-8 w-full max-w-md mx-4 shadow-2xl z-10 text-center">
-      <h2 class="text-xl font-extrabold text-dark-900 mb-3">Create an account to continue</h2>
-      <p class="text-gray-500 mb-8 text-sm leading-relaxed max-w-[340px] mx-auto">
+    <div class="relative bg-white rounded-3xl md:rounded-[2rem] p-6 md:p-10 w-full max-w-sm md:max-w-md mx-4 shadow-2xl z-10 text-center">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-dark-900 mb-3">Create an account to continue</h2>
+      <p class="text-gray-500 mb-8 text-sm md:text-base leading-relaxed max-w-[340px] mx-auto">
         Your progress is saved. Create an account to chat, view full details, and move forward.
       </p>
       
-      <div class="space-y-3">
-        <button onclick="closeModal('loginModal'); openModal('signupModal')" class="w-full bg-primary-600 text-white font-bold py-3 rounded-xl transition hover:bg-primary-700 shadow-lg shadow-primary-200 text-[13px]">
+      <div class="space-y-4">
+        <button onclick="closeModal('loginModal'); openModal('signupModal')" class="w-full bg-primary-600 text-white font-bold py-4 rounded-xl transition hover:bg-primary-700 shadow-lg shadow-primary-200 text-sm">
           Create Account
         </button>
-        <button onclick="closeModal('loginModal')" class="w-full text-gray-500 font-bold py-2 text-xs hover:text-dark-900 transition">
+        <button onclick="closeModal('loginModal')" class="w-full text-gray-500 font-bold py-2 text-xs hover:text-dark-900 transition underline underline-offset-4">
           Sign In
         </button>
       </div>
@@ -174,12 +175,21 @@
       </div>
       <div class="flex items-center gap-4">
         <button onclick="openModal('loginModal')" class="btn-primary bg-primary-600 text-white text-sm font-semibold px-5 py-2 rounded-lg">Log In</button>
+        <button onclick="toggleMobileMenu()" class="md:hidden text-gray-600">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
       </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100 px-6 py-6 space-y-5">
+      <a href="brands.html" onclick="toggleMobileMenu()" class="block text-base font-medium text-primary-600">Brands</a>
+      <a href="index.html#manufacturers" onclick="toggleMobileMenu()" class="block text-base font-medium text-gray-700 hover:text-primary-600">Manufacturers</a>
+      <a href="contact.html" onclick="toggleMobileMenu()" class="block text-base font-medium text-gray-700 hover:text-primary-600">Contact</a>
     </div>
   </nav>
 
   <!-- HERO -->
-  <section class="relative pt-32 pb-20 px-6 overflow-hidden">
+  <section class="relative pt-28 md:pt-32 pb-16 md:pb-20 px-6 overflow-hidden">
     <!-- Grid Background -->
     <div class="absolute inset-0 grid-bg -z-10"></div>
     <!-- Data Dots -->
@@ -190,11 +200,11 @@
     <div class="data-dot" style="top: 80%; left: 75%;"></div>
     
     <div class="max-w-4xl mx-auto text-center fade-up">
-      <h1 class="text-4xl md:text-5xl lg:text-[3.6rem] font-extrabold leading-tight tracking-tight text-dark-900">Build products without<br>managing supply chains.</h1>
+      <h1 class="text-4xl md:text-5xl lg:text-[3.6rem] font-extrabold leading-tight tracking-tight text-dark-900">Build products without<br class="hidden md:block">managing supply chains.</h1>
       <p class="mt-6 text-gray-500 text-lg max-w-2xl mx-auto">Define what you need. Receive verified offers. Launch faster.</p>
-      <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <button onclick="openModal('loginModal')" class="btn-primary bg-primary-600 text-white font-semibold px-7 py-3 rounded-lg text-sm shadow-lg shadow-primary-200">Create Product</button>
-        <button class="btn-outline border border-gray-200 bg-white text-gray-700 font-semibold px-7 py-3 rounded-lg text-sm">View Demo</button>
+      <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4 px-6 sm:px-0">
+        <button onclick="openModal('loginModal')" class="btn-primary w-full sm:w-auto bg-primary-600 text-white font-semibold px-7 py-3 rounded-lg text-sm shadow-lg shadow-primary-200">Create Product</button>
+        <button class="btn-outline w-full sm:w-auto border border-gray-200 bg-white text-gray-700 font-semibold px-7 py-3 rounded-lg text-sm">View Demo</button>
       </div>
     </div>
   </section>
@@ -202,27 +212,27 @@
   <!-- TRUST BAR -->
   <section class="py-10 border-y border-gray-100 bg-primary-50/50">
     <div class="max-w-7xl mx-auto px-6">
-      <div class="flex flex-wrap justify-between items-center gap-6">
-        <div class="flex items-center gap-3 text-dark-900 font-medium text-sm">
-          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm">
+      <div class="flex flex-wrap justify-center md:justify-between items-center gap-4 md:gap-6">
+        <div class="flex items-center gap-3 text-dark-900 font-medium text-xs sm:text-sm">
+          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm flex-shrink-0">
             <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           </div>
           Certified European supplement manufacturers
         </div>
-        <div class="flex items-center gap-3 text-dark-900 font-medium text-sm">
-          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm">
+        <div class="flex items-center gap-3 text-dark-900 font-medium text-xs sm:text-sm">
+          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm flex-shrink-0">
             <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
           </div>
           GMP & ISO compliant production
         </div>
-        <div class="flex items-center gap-3 text-dark-900 font-medium text-sm">
-          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm">
+        <div class="flex items-center gap-3 text-dark-900 font-medium text-xs sm:text-sm">
+          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm flex-shrink-0">
             <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           </div>
           Structured RFQ process
         </div>
-        <div class="flex items-center gap-3 text-dark-900 font-medium text-sm">
-          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm">
+        <div class="flex items-center gap-3 text-dark-900 font-medium text-xs sm:text-sm">
+          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm flex-shrink-0">
             <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
           </div>
           Transparent proposal comparison
@@ -232,7 +242,7 @@
   </section>
 
   <!-- SEE HOW BRIEFS ARE STRUCTURED -->
-  <section class="py-24 px-6 bg-gray-50">
+  <section class="py-16 md:py-24 px-6 bg-gray-50">
     <div class="max-w-4xl mx-auto text-center mb-16 fade-up">
       <h2 class="text-3xl md:text-4xl font-extrabold text-dark-900">See how briefs are structured</h2>
       <p class="mt-4 text-gray-500 text-lg">Define your product requirements clearly with AI assistance and get matched with the right manufacturers faster.</p>
@@ -259,9 +269,9 @@
       </div>
       
       <!-- Chat Interface -->
-      <div class="p-8 pt-4 space-y-8">
+      <div class="p-4 md:p-8 pt-4 space-y-8">
         <!-- Scrollable Message Container -->
-        <div class="max-h-[460px] overflow-y-auto pr-4 custom-scrollbar space-y-8">
+        <div class="max-h-[460px] overflow-y-auto pr-2 md:pr-4 custom-scrollbar space-y-8">
           <!-- User bubble -->
           <div class="flex justify-end">
             <div class="bg-primary-500 text-white px-7 py-5 max-w-md rounded-2xl rounded-tr-none shadow-sm">
@@ -311,7 +321,7 @@
   </section>
 
   <!-- HOW IT WORKS (Reused & Centered) -->
-  <section id="howItWorks" class="py-24 px-6 bg-white">
+  <section id="howItWorks" class="py-16 md:py-24 px-6 bg-white">
     <div class="max-w-5xl mx-auto text-center mb-16 fade-up">
       <h2 class="text-4xl md:text-5xl font-extrabold text-dark-900">How it works</h2>
     </div>
@@ -347,12 +357,12 @@
   </section>
 
   <!-- READY TO LAUNCH -->
-  <section class="py-24 px-6 bg-gray-50">
+  <section class="py-16 md:py-24 px-6 bg-gray-50">
     <div class="max-w-3xl mx-auto text-center fade-up">
       <h2 class="text-4xl md:text-5xl font-extrabold text-dark-900 leading-tight">Ready to launch your product?</h2>
       <p class="mt-6 text-gray-500 text-lg max-w-xl mx-auto">The manufacturing infrastructure layer for European commerce.</p>
-      <div class="mt-10">
-        <button onclick="openModal('loginModal')" class="btn-primary bg-primary-600 text-white font-bold px-10 py-4 rounded-xl shadow-xl shadow-primary-200">Create Product</button>
+      <div class="mt-10 px-6 sm:px-0">
+        <button onclick="openModal('loginModal')" class="btn-primary w-full sm:w-auto bg-primary-600 text-white font-bold px-10 py-4 rounded-xl shadow-xl shadow-primary-200">Create Product</button>
       </div>
     </div>
   </section>

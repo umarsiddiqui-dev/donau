@@ -49,17 +49,17 @@
   <!-- MODALS (Redesigned) -->
   <div id="loginModal" class="fixed inset-0 z-[60] hidden items-center justify-center">
     <div class="absolute inset-0 bg-dark-900/60 backdrop-blur-sm" onclick="closeModal('loginModal')"></div>
-    <div class="relative bg-white rounded-[2rem] p-8 w-full max-w-md mx-4 shadow-2xl z-10 text-center">
-      <h2 class="text-xl font-extrabold text-dark-900 mb-3">Create an account to continue</h2>
-      <p class="text-gray-500 mb-8 text-sm leading-relaxed max-w-[340px] mx-auto">
+    <div class="relative bg-white rounded-3xl md:rounded-[2rem] p-6 md:p-10 w-full max-w-sm md:max-w-md mx-4 shadow-2xl z-10 text-center">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-dark-900 mb-3">Create an account to continue</h2>
+      <p class="text-gray-500 mb-8 text-sm md:text-base leading-relaxed max-w-[340px] mx-auto">
         Your progress is saved. Create an account to chat, view full details, and move forward.
       </p>
       
-      <div class="space-y-3">
-        <button onclick="closeModal('loginModal'); openModal('signupModal')" class="w-full bg-primary-600 text-white font-bold py-3 rounded-xl transition hover:bg-primary-700 shadow-lg shadow-primary-200 text-[13px]">
+      <div class="space-y-4">
+        <button onclick="closeModal('loginModal'); openModal('signupModal')" class="w-full bg-primary-600 text-white font-bold py-4 rounded-xl transition hover:bg-primary-700 shadow-lg shadow-primary-200 text-sm">
           Create Account
         </button>
-        <button onclick="closeModal('loginModal')" class="w-full text-gray-500 font-bold py-2 text-xs hover:text-dark-900 transition">
+        <button onclick="closeModal('loginModal')" class="w-full text-gray-500 font-bold py-2 text-xs hover:text-dark-900 transition underline underline-offset-4">
           Sign In
         </button>
       </div>
@@ -128,21 +128,21 @@
       </div>
     </div>
     <!-- Mobile menu -->
-    <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100 px-6 py-4 space-y-3">
-      <a href="brands.html" onclick="toggleMobileMenu()" class="block text-sm font-medium text-gray-700 hover:text-primary-600">Brands</a>
-      <a href="#manufacturers" onclick="toggleMobileMenu()" class="block text-sm font-medium text-gray-700 hover:text-primary-600">Manufacturers</a>
-      <a href="contact.html" class="block text-sm font-medium text-gray-700 hover:text-primary-600">Contact</a>
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100 px-6 py-6 space-y-5">
+      <a href="brands.html" onclick="toggleMobileMenu()" class="block text-base font-medium text-gray-700 hover:text-primary-600">Brands</a>
+      <a href="#manufacturers" onclick="toggleMobileMenu()" class="block text-base font-medium text-gray-700 hover:text-primary-600">Manufacturers</a>
+      <a href="contact.html" class="block text-base font-medium text-gray-700 hover:text-primary-600">Contact</a>
     </div>
   </nav>
 
   <!-- HERO -->
-  <section class="pt-32 pb-16 px-6 text-center">
+  <section class="pt-28 md:pt-32 pb-12 md:pb-16 px-6 text-center">
     <div class="max-w-4xl mx-auto fade-up">
-      <h1 class="text-4xl md:text-5xl lg:text-[3.4rem] font-extrabold leading-tight tracking-tight text-dark-900">The Infrastructure Layer for<br>European Contract Manufacturing</h1>
+      <h1 class="text-4xl md:text-5xl lg:text-[3.4rem] font-extrabold leading-tight tracking-tight text-dark-900">The Infrastructure Layer for<br class="hidden md:block">European Contract Manufacturing</h1>
       <p class="mt-5 text-gray-500 text-lg max-w-2xl mx-auto">Launch products faster with structured briefs, verified manufacturers, and transparent proposals.</p>
-      <div class="mt-8 flex flex-wrap justify-center gap-4">
-        <button onclick="openModal('loginModal')" class="btn-primary bg-primary-600 text-white font-semibold px-7 py-3 rounded-lg text-sm">Create Product</button>
-        <button onclick="document.getElementById('manufacturers').scrollIntoView({behavior:'smooth'})" class="btn-outline border border-gray-300 text-gray-700 font-semibold px-7 py-3 rounded-lg text-sm">Join as a Manufacturer</button>
+      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4 px-6 sm:px-0">
+        <button onclick="openModal('loginModal')" class="btn-primary w-full sm:w-auto bg-primary-600 text-white font-semibold px-7 py-3 rounded-lg text-sm">Create Product</button>
+        <button onclick="document.getElementById('manufacturers').scrollIntoView({behavior:'smooth'})" class="btn-outline w-full sm:w-auto border border-gray-300 text-gray-700 font-semibold px-7 py-3 rounded-lg text-sm">Join as a Manufacturer</button>
       </div>
     </div>
     <!-- App preview -->
@@ -171,7 +171,7 @@
   </section>
 
   <!-- SERVICES -->
-  <section id="services" class="py-20 px-6 bg-gray-50">
+  <section id="services" class="py-16 md:py-20 px-6 bg-gray-50">
     <div class="max-w-6xl mx-auto text-center fade-up">
       <p class="text-primary-600 font-semibold text-sm mb-2">Services</p>
       <h2 class="text-3xl md:text-4xl font-extrabold text-dark-900">What our platform do</h2>
@@ -180,15 +180,15 @@
     <div class="max-w-6xl mx-auto mt-16 grid md:grid-cols-2 gap-12 items-center fade-up">
       <div>
         <p class="text-primary-600 font-semibold text-sm mb-3">For Brands</p>
-        <h3 class="text-2xl md:text-3xl font-bold text-dark-900 leading-snug">Build products without<br>managing supply chains.</h3>
+        <h3 class="text-2xl md:text-3xl font-bold text-dark-900 leading-snug">Build products without<br class="hidden md:block">managing supply chains.</h3>
         <ul class="mt-6 space-y-3">
           <li class="flex items-center gap-3 text-gray-600"><span class="w-2 h-2 rounded-full bg-primary-500"></span>AI-assisted structured briefs</li>
           <li class="flex items-center gap-3 text-gray-600"><span class="w-2 h-2 rounded-full bg-primary-500"></span>Verified manufacturing partners</li>
           <li class="flex items-center gap-3 text-gray-600"><span class="w-2 h-2 rounded-full bg-primary-500"></span>Transparent proposals</li>
         </ul>
-        <div class="mt-8 flex gap-4">
-          <button onclick="openModal('loginModal')" class="btn-primary bg-primary-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Create Product</button>
-          <button onclick="openModal('demoModal')" class="btn-outline border border-gray-300 text-gray-700 font-semibold px-6 py-2.5 rounded-lg text-sm">View Demo</button>
+        <div class="mt-8 flex flex-col sm:flex-row gap-4">
+          <button onclick="openModal('loginModal')" class="btn-primary w-full sm:w-auto bg-primary-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Create Product</button>
+          <button onclick="openModal('demoModal')" class="btn-outline w-full sm:w-auto border border-gray-300 text-gray-700 font-semibold px-6 py-2.5 rounded-lg text-sm">View Demo</button>
         </div>
       </div>
       <div><img src="assets/services-brands.png" alt="Brand dashboard" class="w-full"></div>
@@ -198,22 +198,22 @@
       <div class="order-2 md:order-1"><img src="assets/services-manufacturers.png" alt="Manufacturer portal" class="w-full"></div>
       <div class="order-1 md:order-2">
         <p class="text-primary-600 font-semibold text-sm mb-3">For Manufacturers</p>
-        <h3 class="text-2xl md:text-3xl font-bold text-dark-900 leading-snug">Access structured European<br>product demand.</h3>
+        <h3 class="text-2xl md:text-3xl font-bold text-dark-900 leading-snug">Access structured European<br class="hidden md:block">product demand.</h3>
         <ul class="mt-6 space-y-3">
           <li class="flex items-center gap-3 text-gray-600"><span class="w-2 h-2 rounded-full bg-primary-500"></span>Qualified product briefs</li>
           <li class="flex items-center gap-3 text-gray-600"><span class="w-2 h-2 rounded-full bg-primary-500"></span>Direct brand communication</li>
           <li class="flex items-center gap-3 text-gray-600"><span class="w-2 h-2 rounded-full bg-primary-500"></span>Secure proposal submission</li>
         </ul>
-        <div class="mt-8 flex gap-4">
-          <button onclick="openModal('signupModal')" class="btn-primary bg-primary-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Join as a Manufacturer</button>
-          <button onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})" class="btn-outline border border-gray-300 text-gray-700 font-semibold px-6 py-2.5 rounded-lg text-sm">Explore Briefs</button>
+        <div class="mt-8 flex flex-col sm:flex-row gap-4">
+          <button onclick="openModal('signupModal')" class="btn-primary w-full sm:w-auto bg-primary-600 text-white font-semibold px-6 py-2.5 rounded-lg text-sm">Join as a Manufacturer</button>
+          <button onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})" class="btn-outline w-full sm:w-auto border border-gray-300 text-gray-700 font-semibold px-6 py-2.5 rounded-lg text-sm">Explore Briefs</button>
         </div>
       </div>
     </div>
   </section>
 
   <!-- HOW IT WORKS -->
-  <section id="howItWorks" class="py-20 px-6 bg-white">
+  <section id="howItWorks" class="py-16 md:py-20 px-6 bg-white">
     <div class="max-w-5xl mx-auto text-center fade-up">
       <p class="text-primary-600 font-semibold text-sm mb-2">How it works</p>
       <h2 class="text-3xl md:text-4xl font-extrabold text-dark-900">How brands launch a product</h2>
@@ -250,7 +250,7 @@
   </section>
 
   <!-- WHY DONAU -->
-  <section class="py-20 px-6 bg-gray-50">
+  <section class="py-16 md:py-20 px-6 bg-gray-50">
     <div class="max-w-6xl mx-auto text-center fade-up">
       <p class="text-primary-600 font-semibold text-sm mb-2">Why Donau</p>
       <h2 class="text-3xl md:text-4xl font-extrabold text-dark-900">Built for confidence</h2>
@@ -295,7 +295,7 @@
   </section>
 
   <!-- TESTIMONIAL -->
-  <section class="py-24 px-6 bg-white overflow-hidden">
+  <section class="py-16 md:py-24 px-6 bg-white overflow-hidden">
     <div class="max-w-5xl mx-auto relative fade-up text-center">
       <h2 class="text-3xl md:text-4xl font-bold text-black mb-16">What clients are experiencing</h2>
 
@@ -318,19 +318,19 @@
         <!-- Mobile Quote -->
         <div class="text-[#93C5FD] text-6xl font-serif leading-none block md:hidden mb-8">&rdquo;</div>
 
-        <button onclick="openModal('loginModal')" class="bg-[#0EA5E9] hover:bg-sky-600 text-white font-medium px-8 py-3 rounded-lg transition shadow-sm text-sm">Create Product</button>
+        <button onclick="openModal('loginModal')" class="w-full sm:w-auto bg-[#0EA5E9] hover:bg-sky-600 text-white font-medium px-8 py-3 rounded-lg transition shadow-sm text-sm">Create Product</button>
       </div>
     </div>
   </section>
 
   <!-- FINAL CTA -->
-  <section class="py-20 px-6 bg-gray-50">
+  <section class="py-16 md:py-20 px-6 bg-gray-50">
     <div class="max-w-3xl mx-auto text-center fade-up">
-      <h2 class="text-3xl md:text-4xl font-extrabold text-dark-900 leading-tight">Rebuilding European<br>Manufacturing Coordination.</h2>
+      <h2 class="text-3xl md:text-4xl font-extrabold text-dark-900 leading-tight">Rebuilding European<br class="hidden md:block">Manufacturing Coordination.</h2>
       <p class="mt-5 text-gray-500 text-base max-w-xl mx-auto">Europe's contract manufacturing landscape is fragmented. Donau creates the structured coordination layer connecting verified demand with verified production — transparency, efficiency, and at scale.</p>
-      <div class="mt-8 flex flex-wrap justify-center gap-4">
-        <button onclick="openModal('loginModal')" class="btn-primary bg-primary-600 text-white font-semibold px-7 py-3 rounded-lg text-sm">Create Product</button>
-        <button onclick="openModal('signupModal')" class="btn-outline border border-gray-300 text-gray-700 font-semibold px-7 py-3 rounded-lg text-sm">Join as a Manufacturer</button>
+      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4 px-6 sm:px-0">
+        <button onclick="openModal('loginModal')" class="btn-primary w-full sm:w-auto bg-primary-600 text-white font-semibold px-7 py-3 rounded-lg text-sm">Create Product</button>
+        <button onclick="openModal('signupModal')" class="btn-outline w-full sm:w-auto border border-gray-300 text-gray-700 font-semibold px-7 py-3 rounded-lg text-sm">Join as a Manufacturer</button>
       </div>
     </div>
   </section>
