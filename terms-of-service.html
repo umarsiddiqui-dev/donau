@@ -14,7 +14,7 @@
         extend: {
           fontFamily: { inter: ['Inter', 'sans-serif'] },
           colors: {
-            primary: { 50:'#EFF6FF',100:'#DBEAFE',200:'#BFDBFE',300:'#93C5FD',400:'#60A5FA',500:'#3B82F6',600:'#2563EB',700:'#1D4ED8' },
+            primary: { 50:'#EFF6FF',100:'#DBEAFE',200:'#BFDBFE',300:'#93C5FD',400:'#60A5FA',500:'#3F8AE2',600:'#3F8AE2',700:'#3577C8' },
             dark: { 800:'#1E293B',900:'#0F172A' }
           }
         }
@@ -25,7 +25,7 @@
     * { font-family: 'Inter', sans-serif; }
     html { scroll-behavior: smooth; }
     .nav-link { position: relative; }
-    .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:#3B82F6; transition:width 0.3s ease; }
+    .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:#3F8AE2; transition:width 0.3s ease; }
     .nav-link.active::after { width:100%; }
     .nav-link:hover::after { width:100%; }
     
@@ -57,10 +57,10 @@
     }
     .legal-content li::before {
       content: "•";
-      color: #3B82F6;
+      color: #3F8AE2;
       font-weight: bold;
     }
-    .legal-link { color: #3B82F6; font-weight: 600; text-decoration: underline; }
+    .legal-link { color: #3F8AE2; font-weight: 600; text-decoration: underline; }
   </style>
   <script>
     function openModal(id) { const m = document.getElementById(id); m.classList.remove('hidden'); m.classList.add('flex'); document.body.style.overflow = 'hidden'; }
@@ -146,48 +146,48 @@
 
   <!-- FOOTER -->
   <footer class="bg-white text-gray-500 pt-20 pb-10 px-6 border-t border-gray-100">
-    <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-16">
-      <div class="md:col-span-1">
-        <a href="index.html" class="mb-6 block">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-[2fr_1fr_1fr_1fr] gap-12 mb-16">
+      <div>
+        <a href="index.html" class="mb-4 block">
           <img src="assets/logo.svg" alt="Donau Logo" class="h-8 w-auto">
         </a>
-        <p class="text-sm leading-relaxed max-w-xs">AI-powered platform connecting brands with manufacturers.</p>
+        <p class="mt-4 text-sm leading-relaxed">AI-powered platform connecting brands<br>with manufacturers</p>
       </div>
       <div>
-        <h5 class="text-dark-900 font-bold mb-6 text-sm uppercase tracking-wider">Platform</h5>
-        <ul class="space-y-4 text-sm font-medium">
+        <h5 class="text-dark-900 font-bold mb-5 text-sm">Platform</h5>
+        <ul class="space-y-3 text-sm">
           <li><a href="index.html" class="hover:text-primary-600 transition">Home</a></li>
           <li><a href="brands.html" class="hover:text-primary-600 transition">Brands</a></li>
           <li><a href="manufacturers.html" class="hover:text-primary-600 transition">Manufacturers</a></li>
         </ul>
       </div>
       <div>
-        <h5 class="text-dark-900 font-bold mb-6 text-sm uppercase tracking-wider">Company</h5>
-        <ul class="space-y-4 text-sm font-medium">
+        <h5 class="text-dark-900 font-bold mb-5 text-sm">Company</h5>
+        <ul class="space-y-3 text-sm">
           <li><a href="contact.html" class="hover:text-primary-600 transition">Contact</a></li>
           <li><a href="privacy-policy.html" class="hover:text-primary-600 transition">Privacy Policy</a></li>
-          <li><a href="terms-of-service.html" class="text-primary-600">Terms of Service</a></li>
+          <li><a href="terms-of-service.html" class="hover:text-primary-600 transition">Terms of Service</a></li>
         </ul>
       </div>
       <div>
-        <h5 class="text-dark-900 font-bold mb-6 text-sm uppercase tracking-wider">Contact</h5>
-        <p class="text-sm font-medium mb-6">info@donauai.com</p>
-        <div class="flex gap-4">
-          <a href="#" class="w-10 h-10 rounded-full bg-gray-50 hover:bg-gray-100 text-dark-800 flex items-center justify-center transition border border-gray-100">
+        <h5 class="text-dark-900 font-bold mb-5 text-sm">Contact</h5>
+        <p class="text-sm mb-5">info@donauai.com</p>
+        <div class="flex gap-3">
+          <a href="#" class="w-10 h-10 rounded-full bg-[#EAEEF3] hover:bg-[#DDE3EA] text-[#1E293B] flex items-center justify-center transition">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M14 10V8a1 1 0 0 1 1-1h1V4h-2a4 4 0 0 0-4 4v2H8v3h2v10h4V13h2l1-3h-3z"/></svg>
           </a>
-          <a href="#" class="w-10 h-10 rounded-full bg-gray-50 hover:bg-gray-100 text-dark-800 flex items-center justify-center transition border border-gray-100">
+          <a href="#" class="w-10 h-10 rounded-full bg-[#EAEEF3] hover:bg-[#DDE3EA] text-[#1E293B] flex items-center justify-center transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
           </a>
-          <a href="#" class="w-10 h-10 rounded-full bg-gray-50 hover:bg-gray-100 text-dark-800 flex items-center justify-center transition border border-gray-100">
+          <a href="#" class="w-10 h-10 rounded-full bg-[#EAEEF3] hover:bg-[#DDE3EA] text-[#1E293B] flex items-center justify-center transition">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg>
           </a>
         </div>
       </div>
     </div>
-    <div class="max-w-7xl mx-auto border-t border-gray-100 pt-10 flex flex-wrap justify-between items-center text-xs font-bold uppercase tracking-widest text-gray-400">
+    <div class="max-w-7xl mx-auto border-t border-gray-100 pt-8 flex flex-wrap justify-between items-center text-xs text-gray-400">
       <p>&copy; 2026 DonauApp</p>
-      <div class="flex items-center gap-2 group cursor-pointer hover:text-dark-900 transition font-bold"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg> English</div>
+      <div class="flex items-center gap-1.5 font-medium"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg> English</div>
     </div>
   </footer>
 
