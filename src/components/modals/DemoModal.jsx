@@ -32,7 +32,7 @@ const DemoModal = () => {
         </div>
         <button 
           onClick={() => { closeModal(); openModal('signup'); }} 
-          className="btn-primary bg-primary-600 text-white font-semibold px-7 py-3 rounded-lg text-sm w-full"
+          className="btn-primary bg-[#3F8AE2] text-white font-semibold px-7 py-3 rounded-lg text-sm w-full"
         >
           Get Started Instead
         </button>

@@ -45,7 +45,7 @@ const ContactModal = () => {
             placeholder="How can we help?" 
             className="w-full px-4 py-3 border border-gray-300 rounded-lg mb-6 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition resize-none"
           ></textarea>
-          <button type="submit" className="btn-primary w-full bg-primary-600 text-white py-3 rounded-lg font-semibold">
+          <button type="submit" className="btn-primary w-full bg-[#3F8AE2] text-white py-3 rounded-lg font-semibold">
             Send Message
           </button>
         </form>

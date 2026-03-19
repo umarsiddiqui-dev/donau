@@ -24,7 +24,7 @@ const Manufacturers = () => {
       title: "Organic Pea Protein Powder",
       company: "HealthyFoods.co",
       status: "In Discussion",
-      statusColor: "text-[#0EA5E9]",
+      statusColor: "text-[#3F8AE2]",
       statusBg: "bg-[#F0F9FF]",
       category: "Healthy Foods",
       budget: "€12000 - €25000",
@@ -77,7 +77,7 @@ const Manufacturers = () => {
           <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4 px-6 sm:px-0">
             <button 
               onClick={() => openModal('signup')} 
-              className="btn-primary w-full sm:w-auto bg-primary-600 text-white font-semibold px-7 py-3 rounded-lg text-sm shadow-lg shadow-primary-200"
+              className="btn-primary w-full sm:w-auto bg-[#3F8AE2] text-white font-semibold px-7 py-3 rounded-lg text-sm shadow-lg shadow-blue-100"
             >
               Join as a Manufacturer
             </button>
@@ -118,7 +118,7 @@ const Manufacturers = () => {
           <div className="absolute top-8 left-[16.6%] right-[16.6%] h-px border-t border-dashed border-primary-200 hidden md:block z-0 transform translate-y-[-50%]"></div>
           
           <div className="text-center group relative z-10 transition hover:scale-105 duration-300">
-            <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-primary-600 flex items-center justify-center transition shadow-lg shadow-primary-200">
+            <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-[#3F8AE2] flex items-center justify-center transition shadow-lg shadow-blue-100">
               <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
             </div>
             <p className="text-primary-600 text-[11px] font-bold mb-1 uppercase tracking-widest">Step 1</p>
@@ -126,7 +126,7 @@ const Manufacturers = () => {
             <p className="text-gray-500 text-sm">Your certificates and capabilities are verified and visible to brands.</p>
           </div>
           <div className="text-center group relative z-10 transition hover:scale-105 duration-300">
-            <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-primary-600 flex items-center justify-center transition shadow-lg shadow-primary-200">
+            <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-[#3F8AE2] flex items-center justify-center transition shadow-lg shadow-blue-100">
               <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
             </div>
             <p className="text-primary-600 text-[11px] font-bold mb-1 uppercase tracking-widest">Step 2</p>
@@ -134,7 +134,7 @@ const Manufacturers = () => {
             <p className="text-gray-500 text-sm">No vague requests. Every brief comes with clear specifications.</p>
           </div>
           <div className="text-center group relative z-10 transition hover:scale-105 duration-300">
-            <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-primary-600 flex items-center justify-center transition shadow-lg shadow-primary-200">
+            <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-[#3F8AE2] flex items-center justify-center transition shadow-lg shadow-blue-100">
               <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             </div>
             <p className="text-primary-600 text-[11px] font-bold mb-1 uppercase tracking-widest">Step 3</p>
@@ -152,7 +152,7 @@ const Manufacturers = () => {
           <div className="mt-10 px-6 sm:px-0">
             <button 
               onClick={() => openModal('signup')} 
-              className="btn-primary w-full sm:w-auto bg-primary-600 text-white font-bold px-10 py-4 rounded-xl shadow-xl shadow-primary-200 text-sm"
+              className="btn-primary w-full sm:w-auto bg-[#3F8AE2] text-white font-bold px-10 py-4 rounded-xl shadow-xl shadow-blue-100 text-sm"
             >
               Join as a Manufacturer
             </button>
@@ -164,3 +164,4 @@ const Manufacturers = () => {
 };
 
 export default Manufacturers;
+

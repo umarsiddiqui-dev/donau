@@ -71,10 +71,10 @@ const BriefCard = ({
         </div>
 
         <div className="flex items-center gap-3 w-full md:w-auto mt-4 md:mt-0">
-          <button className="hidden md:block px-6 py-2.5 border border-blue-200 text-blue-500 font-bold rounded-xl text-sm transition hover:bg-blue-50 whitespace-nowrap">
+          <button className="hidden md:block px-6 py-2.5 border border-blue-200 text-primary-500 font-bold rounded-xl text-sm transition hover:bg-blue-50 whitespace-nowrap">
             Not Proceed
           </button>
-          <button className="w-full md:px-8 py-3.5 md:py-2.5 bg-[#3B82F6] text-white font-bold rounded-xl text-sm transition hover:bg-blue-600 shadow-lg shadow-blue-100 whitespace-nowrap cursor-default">
+          <button className="w-full md:px-8 py-3.5 md:py-2.5 bg-[#3F8AE2] text-white font-bold rounded-xl text-sm transition hover:bg-[#3577C8] shadow-lg shadow-blue-100 whitespace-nowrap cursor-default">
             View Brief
           </button>
           <button className="hidden md:block p-1 text-gray-300 hover:text-gray-600 transition ml-2">
@@ -89,3 +89,4 @@ const BriefCard = ({
 };
 
 export default BriefCard;
+

@@ -21,7 +21,7 @@ const LoginModal = () => {
         <div className="space-y-4">
           <button 
             onClick={() => { closeModal(); openModal('signup'); }} 
-            className="w-full bg-primary-600 text-white font-bold py-4 rounded-xl transition hover:bg-primary-700 shadow-lg shadow-primary-200 text-sm"
+            className="w-full bg-[#3F8AE2] text-white font-bold py-4 rounded-xl transition hover:bg-[#3577C8] shadow-lg shadow-blue-100 text-sm"
           >
             Create Account
           </button>

@@ -1,19 +1,23 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-  --font-inter: "Inter", sans-serif;
-  
-  --color-primary-50: #EFF6FF;
-  --color-primary-100: #DBEAFE;
-  --color-primary-200: #BFDBFE;
-  --color-primary-300: #93C5FD;
-  --color-primary-400: #60A5FA;
-  --color-primary-500: #3B82F6;
-  --color-primary-600: #2563EB;
-  --color-primary-700: #1D4ED8;
-  
-  --color-dark-800: #1E293B;
-  --color-dark-900: #0F172A;
+@layer base {
+  :root {
+    --font-inter: "Inter", sans-serif;
+    
+    --color-primary-50: #EFF6FF;
+    --color-primary-100: #DBEAFE;
+    --color-primary-200: #BFDBFE;
+    --color-primary-300: #93C5FD;
+    --color-primary-400: #60A5FA;
+    --color-primary-500: #4A96EC;
+    --color-primary-600: #3F8AE2;
+    --color-primary-700: #3577C8;
+    
+    --color-dark-800: #1E293B;
+    --color-dark-900: #0F172A;
+  }
 }
 
 * {
@@ -76,7 +80,7 @@ body {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+  box-shadow: 0 8px 20px rgba(63, 138, 226, 0.35);
 }
 
 .btn-outline {
@@ -89,7 +93,7 @@ body {
 }
 
 .stat-number {
-  background: linear-gradient(135deg, #2563EB, #3B82F6);
+  background: linear-gradient(135deg, #3F8AE2, #4A96EC);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -107,7 +111,7 @@ body {
   left: 0;
   width: 0;
   height: 2px;
-  background: #3B82F6;
+  background: #3F8AE2;
   transition: width 0.3s ease;
 }
 
@@ -149,7 +153,7 @@ body {
 }
 
 .chat-bubble-user {
-  background-color: #3B82F6;
+  background-color: #3F8AE2;
   border-radius: 12px 12px 4px 12px;
   color: white;
 }

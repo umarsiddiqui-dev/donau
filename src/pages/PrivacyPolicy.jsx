@@ -14,20 +14,20 @@ const PrivacyPolicy = () => {
           <h2 className="text-2xl font-extrabold text-dark-900 mt-10 mb-5">2. Information We Collect</h2>
           <p className="text-[0.95rem] leading-[1.7] text-slate-500 mb-5">We may collect the following types of information:</p>
           <ul className="mb-6 space-y-3">
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">Account information (name, email address, company details)</li>
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">Sourcing brief data you provide through the platform</li>
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">Usage data and analytics (pages visited, features used)</li>
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">Device and browser information</li>
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">Communication data when you contact us</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">Account information (name, email address, company details)</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">Sourcing brief data you provide through the platform</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">Usage data and analytics (pages visited, features used)</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">Device and browser information</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">Communication data when you contact us</li>
           </ul>
 
           <h2 className="text-2xl font-extrabold text-dark-900 mt-10 mb-5">3. How We Use Information</h2>
           <ul className="mb-6 space-y-3">
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">To provide and maintain our service</li>
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">To match brands with suitable manufacturers</li>
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">To improve and personalize your experience</li>
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">To communicate with you about your account or our services</li>
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">To comply with legal obligations</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">To provide and maintain our service</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">To match brands with suitable manufacturers</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">To improve and personalize your experience</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">To communicate with you about your account or our services</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">To comply with legal obligations</li>
           </ul>
 
           <h2 className="text-2xl font-extrabold text-dark-900 mt-10 mb-5">4. Data Sharing</h2>
@@ -42,11 +42,11 @@ const PrivacyPolicy = () => {
           <h2 className="text-2xl font-extrabold text-dark-900 mt-10 mb-5">7. Your Rights</h2>
           <p className="text-[0.95rem] leading-[1.7] text-slate-500 mb-5">Depending on your jurisdiction, you may have the right to:</p>
           <ul className="mb-6 space-y-3">
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">Access and receive a copy of your personal data</li>
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">Rectify inaccurate data</li>
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">Request deletion of your data</li>
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">Object to or restrict processing</li>
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">Data portability</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">Access and receive a copy of your personal data</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">Rectify inaccurate data</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">Request deletion of your data</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">Object to or restrict processing</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">Data portability</li>
           </ul>
 
           <h2 className="text-2xl font-extrabold text-dark-900 mt-10 mb-5">8. Cookies</h2>
@@ -56,7 +56,7 @@ const PrivacyPolicy = () => {
           <p className="text-[0.95rem] leading-[1.7] text-slate-500 mb-5">We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new policy on this page and updating the "Last updated" date.</p>
 
           <h2 className="text-2xl font-extrabold text-dark-900 mt-10 mb-5">10. Contact Us</h2>
-          <p className="text-[0.95rem] leading-[1.7] text-slate-500 mb-5">If you have questions about this Privacy Policy, please contact us at <a href="mailto:privacy@donau.app" className="text-blue-500 font-semibold underline underline-offset-4">privacy@donau.app</a>.</p>
+          <p className="text-[0.95rem] leading-[1.7] text-slate-500 mb-5">If you have questions about this Privacy Policy, please contact us at <a href="mailto:privacy@donau.app" className="text-primary-500 font-semibold underline underline-offset-4">privacy@donau.app</a>.</p>
         </div>
       </main>
     </div>
@@ -64,3 +64,4 @@ const PrivacyPolicy = () => {
 };
 
 export default PrivacyPolicy;
+

@@ -46,7 +46,7 @@ const Navbar = () => {
         <div className="flex items-center gap-4">
           <button 
             onClick={() => openModal('login')} 
-            className="bg-primary-600 text-white text-sm font-semibold px-5 py-2 rounded-lg hover:bg-primary-700 transition shadow-sm"
+            className="bg-[#3F8AE2] text-white text-sm font-semibold px-5 py-2 rounded-lg hover:bg-[#3577C8] transition shadow-sm"
           >
             Log In
           </button>

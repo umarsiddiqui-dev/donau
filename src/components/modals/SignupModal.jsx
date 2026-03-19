@@ -42,7 +42,7 @@ const SignupModal = () => {
             placeholder="Password" 
             className="w-full px-4 py-3 border border-gray-100 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-[13px]"
           />
-          <button className="w-full bg-primary-600 text-white font-bold py-3 rounded-xl transition hover:bg-primary-700 shadow-lg shadow-primary-200 text-[13px] mt-3">
+          <button className="w-full bg-[#3F8AE2] text-white font-bold py-3 rounded-xl transition hover:bg-[#3577C8] shadow-lg shadow-blue-100 text-[13px] mt-3">
             Create Account
           </button>
         </form>

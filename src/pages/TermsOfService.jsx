@@ -20,10 +20,10 @@ const TermsOfService = () => {
           <h2 className="text-2xl font-extrabold text-dark-900 mt-10 mb-5">4. Platform Conduct</h2>
           <p className="text-[0.95rem] leading-[1.7] text-slate-500 mb-5">Users agree to use the platform in a professional and lawful manner. You may not:</p>
           <ul className="mb-6 space-y-3">
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">Provide false or misleading information in briefs or proposals</li>
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">Interfere with the operation of the platform</li>
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">Circumvent the platform to engage in transactions with matched parties</li>
-            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-blue-500 before:font-bold">Harass other users</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">Provide false or misleading information in briefs or proposals</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">Interfere with the operation of the platform</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">Circumvent the platform to engage in transactions with matched parties</li>
+            <li className="text-[0.95rem] text-slate-500 flex items-start gap-3 before:content-['•'] before:text-primary-500 before:font-bold">Harass other users</li>
           </ul>
 
           <h2 className="text-2xl font-extrabold text-dark-900 mt-10 mb-5">5. Fees and Payments</h2>
@@ -42,7 +42,7 @@ const TermsOfService = () => {
           <p className="text-[0.95rem] leading-[1.7] text-slate-500 mb-5">These Terms of Service shall be governed by and construed in accordance with the laws of Germany, without regard to its conflict of law provisions.</p>
 
           <h2 className="text-2xl font-extrabold text-dark-900 mt-10 mb-5">10. Contact Us</h2>
-          <p className="text-[0.95rem] leading-[1.7] text-slate-500 mb-5">If you have questions about these Terms of Service, please contact us at <a href="mailto:legal@donau.app" className="text-blue-500 font-semibold underline underline-offset-4">legal@donau.app</a>.</p>
+          <p className="text-[0.95rem] leading-[1.7] text-slate-500 mb-5">If you have questions about these Terms of Service, please contact us at <a href="mailto:legal@donau.app" className="text-primary-500 font-semibold underline underline-offset-4">legal@donau.app</a>.</p>
         </div>
       </main>
     </div>
@@ -50,3 +50,4 @@ const TermsOfService = () => {
 };
 
 export default TermsOfService;
+
