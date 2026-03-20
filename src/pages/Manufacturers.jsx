@@ -76,7 +76,7 @@ const Manufacturers = () => {
           </p>
           <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4 px-6 sm:px-0">
             <button 
-              onClick={() => openModal('signup')} 
+              onClick={() => openModal('login')} 
               className="btn-primary w-full sm:w-auto bg-[#3F8AE2] text-white font-semibold px-7 py-3 rounded-lg text-sm shadow-lg shadow-blue-100"
             >
               Join as a Manufacturer
@@ -151,7 +151,7 @@ const Manufacturers = () => {
           <p className="mt-6 text-gray-500 text-lg max-w-xl mx-auto">The manufacturing infrastructure layer for European commerce.</p>
           <div className="mt-10 px-6 sm:px-0">
             <button 
-              onClick={() => openModal('signup')} 
+              onClick={() => openModal('login')} 
               className="btn-primary w-full sm:w-auto bg-[#3F8AE2] text-white font-bold px-10 py-4 rounded-xl shadow-xl shadow-blue-100 text-sm"
             >
               Join as a Manufacturer
