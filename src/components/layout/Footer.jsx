@@ -34,22 +34,22 @@ const Footer = () => {
         <div>
           <h5 className="text-dark-900 font-bold mb-5 text-2xl tracking-tight">Contact</h5>
           <p className="text-lg text-slate-500 mb-8 font-medium">info@donauai.com</p>
-          <div className="flex gap-4">
-            <a href="#" className="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-dark-900 flex items-center justify-center transition">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M14.601 16.748l.407-2.653h-2.544V12.37c0-.724.355-1.43 1.492-1.43h1.154V8.678a14.07 14.07 0 00-2.048-.178c-2.088 0-3.45 1.266-3.45 3.553v1.944H7.38v2.653h2.234V24h2.753v-7.252h2.234z" />
+          <div className="flex gap-4 mt-2">
+            <a href="#" className="text-dark-900 hover:text-primary-600 transition">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M14 12V24h-5V12H7V8h2V5c0-3 2-5 6-5 1.5 0 2.5.1 3 .2v3.8h-2.3c-1.4 0-1.7.7-1.7 1.7V8h4l-.5 4h-3.5z" />
               </svg>
             </a>
-            <a href="#" className="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-dark-900 flex items-center justify-center transition">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <a href="#" className="text-dark-900 hover:text-primary-600 transition">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
               </svg>
             </a>
-            <a href="#" className="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-dark-900 flex items-center justify-center transition">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v13.5h5V8zm7.982 0h-4.968v13.5h4.969v-7.399c0-3.907 5.063-4.238 5.063 0v7.399h4.983v-9.398c0-7.307-8.275-7.017-10.047-3.758v-2.843z" />
+            <a href="#" className="text-dark-900 hover:text-primary-600 transition">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
               </svg>
             </a>
           </div>

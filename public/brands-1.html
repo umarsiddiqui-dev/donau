@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Donau — Build products without managing supply chains</title>
+  <title>Donau — Build products without managing supply chains (Brand 1)</title>
   <meta name="description" content="Define what you need. Receive verified offers. Launch faster. The infrastructure layer for European contract manufacturing.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -63,129 +63,39 @@
       border-radius: 12px 12px 4px 12px;
       color: white;
     }
-    
-    /* Custom Scrollbar */
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #F8FAFC;
-      border-radius: 10px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #CBD5E1;
-      border-radius: 10px;
-      transition: all 0.3s ease;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #94A3B8;
-    }
   </style>
-  <script src="js/config.js"></script>
-  <script src="js/api.js"></script>
-  <script>
-    function openModal(id) { const m = document.getElementById(id); m.classList.remove('hidden'); m.classList.add('flex'); document.body.style.overflow = 'hidden'; }
-    function closeModal(id) { const m = document.getElementById(id); m.classList.add('hidden'); m.classList.remove('flex'); document.body.style.overflow = ''; }
-    function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
-    
-    // Form handlers
-    function showToast(msg) {
-      let t = document.getElementById('toast');
-      if (!t) {
-        t = document.createElement('div');
-        t.id = 'toast';
-        t.className = 'fixed top-6 right-6 z-[70] bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg font-medium transform translate-x-[120%] transition-transform duration-300';
-        t.innerHTML = '<span id="toastMsg">Success!</span>';
-        document.body.appendChild(t);
-      }
-      document.getElementById('toastMsg').textContent = msg;
-      t.style.transform = 'translateX(0)';
-      setTimeout(() => { t.style.transform = 'translateX(120%)'; }, 3000);
-    }
-
-    async function handleSignup(e) { 
-      e.preventDefault(); 
-      const formData = new FormData(e.target);
-      const data = Object.fromEntries(formData.entries());
-      try {
-        await window.DONAU_API.signup(data.companyName, data.email, data.password);
-        closeModal('signupModal'); 
-        showToast('Account created! Welcome to Donau.'); 
-      } catch (error) { showToast('Signup failed.'); }
-    }
-
-    async function handleLogin(e) { 
-      e.preventDefault(); 
-      closeModal('loginModal'); 
-      showToast('Logged in successfully!'); 
-    }
-
-    async function handleContact(e) { 
-      e.preventDefault(); 
-      const formData = new FormData(e.target);
-      const data = Object.fromEntries(formData.entries());
-      try {
-        await window.DONAU_API.sendContact(data.name, data.email, data.message);
-        closeModal('contactModal'); 
-        showToast('Message sent!'); 
-      } catch (error) { showToast('Submission failed.'); }
-    }
-
-    // Fade-up animation
-    window.addEventListener('DOMContentLoaded', () => {
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); obs.unobserve(entry.target); } });
-      }, { threshold: 0.1 });
-      document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
-      
-      // Smooth scrolling for hash links
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
-          const targetElement = document.getElementById(targetId);
-          if (targetElement) { targetElement.scrollIntoView({ behavior: 'smooth' }); }
-        });
-      });
-    });
-  </script>
-
 </head>
 <body class="bg-white text-gray-900 antialiased">
 
-  <!-- MODALS (Redesigned) -->
-  <div id="loginModal" class="fixed inset-0 z-[60] hidden items-center justify-center">
-    <div class="absolute inset-0 bg-dark-900/60 backdrop-blur-sm" onclick="closeModal('loginModal')"></div>
-    <div class="relative bg-white rounded-3xl md:rounded-[2rem] p-6 md:p-10 w-full max-w-sm md:max-w-md mx-4 shadow-2xl z-10 text-center">
-      <h2 class="text-2xl md:text-3xl font-extrabold text-dark-900 mb-3">Create an account to continue</h2>
-      <p class="text-gray-500 mb-8 text-sm md:text-base leading-relaxed max-w-[340px] mx-auto">
-        Your progress is saved. Create an account to chat, view full details, and move forward.
-      </p>
-      
-      <div class="space-y-4">
-        <button onclick="closeModal('loginModal'); openModal('signupModal')" class="w-full bg-[#3F8AE2] text-white font-bold py-4 rounded-xl transition hover:bg-[#3577C8] shadow-lg shadow-blue-100 text-sm">
-          Create Account
-        </button>
-        <button onclick="closeModal('loginModal')" class="w-full text-gray-500 font-bold py-2 text-xs hover:text-dark-900 transition underline underline-offset-4">
-          Sign In
-        </button>
-      </div>
+  <!-- LOGIN MODAL (Reused) -->
+  <div id="loginModal" class="fixed inset-0 z-50 hidden items-center justify-center">
+    <div class="modal-overlay absolute inset-0 bg-black/50" onclick="closeModal('loginModal')"></div>
+    <div class="modal-content relative bg-white rounded-2xl p-8 w-full max-w-md mx-4 shadow-2xl z-10">
+      <button onclick="closeModal('loginModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+      <h2 class="text-2xl font-bold mb-2">Welcome back</h2>
+      <p class="text-gray-500 mb-6">Log in to your Donau account</p>
+      <form onsubmit="handleLogin(event)">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <input type="email" required placeholder="you@company.com" class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+        <input type="password" required placeholder="••••••••" class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-6 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition">
+        <button type="submit" class="btn-primary w-full bg-[#3F8AE2] text-white py-3 rounded-lg font-semibold">Log In</button>
+      </form>
     </div>
   </div>
 
-  <div id="signupModal" class="fixed inset-0 z-[60] hidden items-center justify-center">
-    <div class="absolute inset-0 bg-dark-900/60 backdrop-blur-sm" onclick="closeModal('signupModal')"></div>
-    <div class="relative bg-white rounded-[2rem] p-8 w-full max-w-md mx-4 shadow-2xl z-10 text-center">
-      <button onclick="closeModal('signupModal')" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
-      </button>
-      <h2 class="text-xl font-extrabold text-dark-900 mb-3">Join Donau</h2>
-      <p class="text-gray-500 mb-6 text-sm font-medium">Access structured European demand today.</p>
-      <form onsubmit="handleSignup(event)" class="space-y-3">
-        <input type="text" name="companyName" placeholder="Company Name" required class="w-full px-4 py-3 border border-gray-100 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-[13px]">
-        <input type="email" name="email" placeholder="Email" required class="w-full px-4 py-3 border border-gray-100 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-[13px]">
-        <input type="password" name="password" placeholder="Password" required class="w-full px-4 py-3 border border-gray-100 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-[13px]">
-        <button type="submit" class="w-full bg-[#3F8AE2] text-white font-bold py-3 rounded-xl transition hover:bg-[#3577C8] shadow-lg shadow-blue-100 text-[13px] mt-3">Create Account</button>
+  <!-- SIGNUP MODAL (Reused) -->
+  <div id="signupModal" class="fixed inset-0 z-50 hidden items-center justify-center">
+    <div class="modal-overlay absolute inset-0 bg-black/50" onclick="closeModal('signupModal')"></div>
+    <div class="modal-content relative bg-white rounded-2xl p-8 w-full max-w-md mx-4 shadow-2xl z-10">
+      <button onclick="closeModal('signupModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+      <h2 class="text-2xl font-bold mb-2">Create your account</h2>
+      <p class="text-gray-500 mb-6">Get started with Donau today</p>
+      <form onsubmit="handleSignup(event)">
+        <input type="text" required placeholder="Full Name" class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition">
+        <input type="email" required placeholder="Email" class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition">
+        <input type="password" required placeholder="Password" class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-6 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition">
+        <button type="submit" class="btn-primary w-full bg-[#3F8AE2] text-white py-3 rounded-lg font-semibold">Create Account</button>
       </form>
     </div>
   </div>
@@ -197,9 +107,9 @@
       <button onclick="closeModal('contactModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
       <h2 class="text-2xl font-bold mb-2">Contact Us</h2>
       <form onsubmit="handleContact(event)">
-        <input type="text" name="name" required placeholder="Name" class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-4">
-        <input type="email" name="email" required placeholder="Email" class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-4">
-        <textarea name="message" required placeholder="Message" class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-6"></textarea>
+        <input type="text" required placeholder="Name" class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-4">
+        <input type="email" required placeholder="Email" class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-4">
+        <textarea required placeholder="Message" class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-6"></textarea>
         <button type="submit" class="btn-primary w-full bg-[#3F8AE2] text-white py-3 rounded-lg font-semibold">Send Message</button>
       </form>
     </div>
@@ -215,26 +125,17 @@
         <div class="hidden md:flex items-center gap-6">
           <a href="brands.html" class="nav-link active text-sm font-medium text-primary-600">Brands</a>
           <a href="manufacturers.html" class="nav-link text-sm font-medium text-gray-600 hover:text-gray-900">Manufacturers</a>
-          <a href="contact.html" class="nav-link text-sm font-medium text-gray-600 hover:text-gray-900 tracking-wider">Contact</a>
+          <a href="contact.html" class="nav-link text-sm font-medium text-gray-600 hover:text-gray-900 uppercase tracking-wider font-bold">Contact</a>
         </div>
       </div>
       <div class="flex items-center gap-4">
         <button onclick="openModal('loginModal')" class="btn-primary bg-[#3F8AE2] text-white text-sm font-semibold px-5 py-2 rounded-lg">Log In</button>
-        <button onclick="toggleMobileMenu()" class="md:hidden text-gray-600">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
       </div>
-    </div>
-    <!-- Mobile menu -->
-    <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100 px-6 py-6 space-y-5">
-      <a href="brands.html" onclick="toggleMobileMenu()" class="block text-base font-medium text-primary-600">Brands</a>
-      <a href="manufacturers.html" onclick="toggleMobileMenu()" class="block text-base font-medium text-gray-700 hover:text-primary-600">Manufacturers</a>
-      <a href="contact.html" onclick="toggleMobileMenu()" class="block text-base font-medium text-gray-700 hover:text-primary-600">Contact</a>
     </div>
   </nav>
 
   <!-- HERO -->
-  <section class="relative pt-28 md:pt-32 pb-16 md:pb-20 px-6 overflow-hidden">
+  <section class="relative pt-32 pb-20 px-6 overflow-hidden">
     <!-- Grid Background -->
     <div class="absolute inset-0 grid-bg -z-10"></div>
     <!-- Data Dots -->
@@ -245,11 +146,11 @@
     <div class="data-dot" style="top: 80%; left: 75%;"></div>
     
     <div class="max-w-4xl mx-auto text-center fade-up">
-      <h1 class="text-4xl md:text-5xl lg:text-[3.6rem] font-extrabold leading-tight tracking-tight text-dark-900">Build products without<br class="hidden md:block">managing supply chains.</h1>
+      <h1 class="text-4xl md:text-5xl lg:text-[3.6rem] font-extrabold leading-tight tracking-tight text-dark-900">Build products without<br>managing supply chains.</h1>
       <p class="mt-6 text-gray-500 text-lg max-w-2xl mx-auto">Define what you need. Receive verified offers. Launch faster.</p>
-      <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4 px-6 sm:px-0">
-        <button onclick="openModal('loginModal')" class="btn-primary w-full sm:w-auto bg-[#3F8AE2] text-white font-semibold px-7 py-3 rounded-lg text-sm shadow-lg shadow-blue-100">Create Product</button>
-        <button class="btn-outline w-full sm:w-auto border border-gray-200 bg-white text-gray-700 font-semibold px-7 py-3 rounded-lg text-sm">View Demo</button>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <button onclick="openModal('signupModal')" class="btn-primary bg-[#3F8AE2] text-white font-semibold px-7 py-3 rounded-lg text-sm shadow-lg shadow-blue-100">Create Product</button>
+        <button class="btn-outline border border-gray-200 bg-white text-gray-700 font-semibold px-7 py-3 rounded-lg text-sm">View Demo</button>
       </div>
     </div>
   </section>
@@ -257,27 +158,27 @@
   <!-- TRUST BAR -->
   <section class="py-10 border-y border-gray-100 bg-primary-50/50">
     <div class="max-w-7xl mx-auto px-6">
-      <div class="flex flex-wrap justify-center md:justify-between items-center gap-4 md:gap-6">
-        <div class="flex items-center gap-3 text-dark-900 font-medium text-xs sm:text-sm">
-          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm flex-shrink-0">
+      <div class="flex flex-wrap justify-between items-center gap-6">
+        <div class="flex items-center gap-3 text-dark-900 font-medium text-sm">
+          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm">
             <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           </div>
           Certified European supplement manufacturers
         </div>
-        <div class="flex items-center gap-3 text-dark-900 font-medium text-xs sm:text-sm">
-          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm flex-shrink-0">
+        <div class="flex items-center gap-3 text-dark-900 font-medium text-sm">
+          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm">
             <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
           </div>
           GMP & ISO compliant production
         </div>
-        <div class="flex items-center gap-3 text-dark-900 font-medium text-xs sm:text-sm">
-          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm flex-shrink-0">
+        <div class="flex items-center gap-3 text-dark-900 font-medium text-sm">
+          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm">
             <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           </div>
           Structured RFQ process
         </div>
-        <div class="flex items-center gap-3 text-dark-900 font-medium text-xs sm:text-sm">
-          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm flex-shrink-0">
+        <div class="flex items-center gap-3 text-dark-900 font-medium text-sm">
+          <div class="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm">
             <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
           </div>
           Transparent proposal comparison
@@ -287,7 +188,7 @@
   </section>
 
   <!-- SEE HOW BRIEFS ARE STRUCTURED -->
-  <section class="py-16 md:py-24 px-6 bg-gray-50">
+  <section class="py-24 px-6 bg-gray-50">
     <div class="max-w-4xl mx-auto text-center mb-16 fade-up">
       <h2 class="text-3xl md:text-4xl font-extrabold text-dark-900">See how briefs are structured</h2>
       <p class="mt-4 text-gray-500 text-lg">Define your product requirements clearly with AI assistance and get matched with the right manufacturers faster.</p>
@@ -309,54 +210,51 @@
               <path d="M17 14L17.6 16.8L20 17.2L17.6 17.6L17 20.4L16.4 17.6L14 17.2L16.4 16.8L17 14Z"></path>
             </svg>
           </div>
-          <span class="font-extrabold text-dark-900 tracking-tighter text-lg">Donau AI Assistant</span>
+          <span class="font-bold text-dark-900 tracking-tighter text-lg">Donau AI Assistant</span>
         </div>
       </div>
       
       <!-- Chat Interface -->
-      <div class="p-4 md:p-8 pt-4 space-y-8">
-        <!-- Scrollable Message Container -->
-        <div class="max-h-[460px] overflow-y-auto pr-2 md:pr-4 custom-scrollbar space-y-8 cursor-pointer" onclick="openModal('loginModal')">
-          <!-- User bubble -->
-          <div class="flex justify-end">
-            <div class="bg-[#3F8AE2] text-white px-7 py-5 max-w-md rounded-2xl rounded-tr-none shadow-sm">
-              <p class="text-[14px] leading-relaxed font-semibold">Create a premium Vitamin D3 supplement for the European market. Capsules, bottle packaging, MOQ around 5,000 units.</p>
-            </div>
+      <div class="p-8 pt-4 space-y-8">
+        <!-- User bubble -->
+        <div class="flex justify-end">
+          <div class="bg-[#3F8AE2] text-white px-7 py-5 max-w-md rounded-2xl rounded-tr-none shadow-sm">
+            <p class="text-[14px] leading-relaxed font-semibold">Create a premium Vitamin D3 supplement for the European market. Capsules, bottle packaging, MOQ around 5,000 units.</p>
           </div>
-          
-          <!-- Assistant bubble -->
-          <div class="flex justify-start">
-            <div class="bg-[#EFF6FC] rounded-2xl rounded-tl-[4px] px-8 py-7 max-w-xl text-dark-800 border border-blue-50/50 shadow-sm">
-              <p class="text-[14px] mb-6 font-medium leading-relaxed">Sure. Here is a structured product brief based on your request.</p>
-              <div class="text-[14px] space-y-2.5 font-medium text-dark-900">
-                <p><span class="font-bold">Product:</span> Premium Vitamin D3 Supplement</p>
-                <p><span class="font-bold">Form:</span> Capsules</p>
-                <p><span class="font-bold">Packaging:</span> Bottle</p>
-                <p><span class="font-bold">MOQ:</span> 5,000 units</p>
-                <p><span class="font-bold">Target market:</span> European Union</p>
-                <p><span class="font-bold">Certifications required:</span> GMP / ISO compliant manufacturers</p>
-              </div>
-              <div class="mt-8">
-                <p class="text-[14px] mb-4 font-bold text-dark-900">Estimated next steps:</p>
-                <ul class="text-[14px] space-y-3 text-dark-800 font-medium">
-                  <li class="flex gap-2"><span>&bull;</span> Finalize formulation details</li>
-                  <li class="flex gap-2"><span>&bull;</span> Send structured brief to verified manufacturers</li>
-                  <li class="flex gap-2"><span>&bull;</span> Receive offers within 48 hours.</li>
-                </ul>
-              </div>
+        </div>
+        
+        <!-- Assistant bubble -->
+        <div class="flex justify-start">
+          <div class="bg-[#EFF6FC] rounded-2xl rounded-tl-none px-8 py-7 max-w-xl text-dark-800 border border-blue-50/50 shadow-sm">
+            <p class="text-[14px] mb-6 font-medium leading-relaxed">Sure. Here is a structured product brief based on your request.</p>
+            <div class="text-[14px] space-y-2.5 font-medium text-dark-900">
+              <p><span class="font-bold">Product:</span> Premium Vitamin D3 Supplement</p>
+              <p><span class="font-bold">Form:</span> Capsules</p>
+              <p><span class="font-bold">Packaging:</span> Bottle</p>
+              <p><span class="font-bold">MOQ:</span> 5,000 units</p>
+              <p><span class="font-bold">Target market:</span> European Union</p>
+              <p><span class="font-bold">Certifications required:</span> GMP / ISO compliant manufacturers</p>
+            </div>
+            <div class="mt-8">
+              <p class="text-[14px] mb-4 font-bold text-dark-900">Estimated next steps:</p>
+              <ul class="text-[14px] space-y-3 text-dark-800 font-medium">
+                <li class="flex gap-2"><span>•</span> Finalize formulation details</li>
+                <li class="flex gap-2"><span>•</span> Send structured brief to verified manufacturers</li>
+                <li class="flex gap-2"><span>•</span> Receive offers within 48 hours.</li>
+              </ul>
             </div>
           </div>
         </div>
         
-        <!-- Input Bar -->
-        <div class="pt-8">
-          <div class="flex items-center gap-4">
+        <!-- Input Bar (Updated Brand 1 Style) -->
+        <div class="pt-6">
+          <div class="flex items-center gap-3">
             <div class="relative flex-1">
-              <input type="text" placeholder="Type your response..." class="w-full pl-6 pr-6 py-5 bg-[#F8FAFC] border border-gray-100 rounded-xl outline-none transition-all duration-300 text-[14px] text-gray-400 cursor-pointer" onclick="openModal('loginModal')" readonly>
+              <input type="text" placeholder="Type your response..." class="w-full px-6 py-3.5 bg-[#F8FAFC] border border-gray-100 rounded-xl outline-none transition-all duration-300 text-[14px] text-gray-400">
             </div>
-            <button onclick="openModal('loginModal')" class="w-14 h-14 bg-[#3F8AE2] rounded-xl flex items-center justify-center text-white hover:bg-[#3577C8] transition shadow-sm">
-              <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+            <button class="w-12 h-12 bg-[#3F8AE2] rounded-xl flex items-center justify-center text-white hover:bg-[#3577C8] transition shadow-sm">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9L22 2"></path>
               </svg>
             </button>
           </div>
@@ -366,7 +264,7 @@
   </section>
 
   <!-- HOW IT WORKS (Reused & Centered) -->
-  <section id="howItWorks" class="py-16 md:py-24 px-6 bg-white">
+  <section id="howItWorks" class="py-24 px-6 bg-white">
     <div class="max-w-5xl mx-auto text-center mb-16 fade-up">
       <h2 class="text-4xl md:text-5xl font-extrabold text-dark-900">How it works</h2>
     </div>
@@ -402,12 +300,12 @@
   </section>
 
   <!-- READY TO LAUNCH -->
-  <section class="py-16 md:py-24 px-6 bg-gray-50">
+  <section class="py-24 px-6 bg-gray-50">
     <div class="max-w-3xl mx-auto text-center fade-up">
       <h2 class="text-4xl md:text-5xl font-extrabold text-dark-900 leading-tight">Ready to launch your product?</h2>
       <p class="mt-6 text-gray-500 text-lg max-w-xl mx-auto">The manufacturing infrastructure layer for European commerce.</p>
-      <div class="mt-10 px-6 sm:px-0">
-        <button onclick="openModal('loginModal')" class="btn-primary w-full sm:w-auto bg-[#3F8AE2] text-white font-bold px-10 py-4 rounded-xl shadow-xl shadow-blue-100">Create Product</button>
+      <div class="mt-10">
+        <button onclick="openModal('signupModal')" class="btn-primary bg-[#3F8AE2] text-white font-bold px-10 py-4 rounded-xl shadow-xl shadow-blue-100">Create Product</button>
       </div>
     </div>
   </section>
@@ -443,22 +341,22 @@
       <div>
         <h5 class="text-dark-900 font-bold mb-5 text-2xl tracking-tight">Contact</h5>
         <p class="text-lg text-slate-500 mb-8 font-medium">info@donauai.com</p>
-        <div class="flex gap-4 mt-2">
-          <a href="#" class="text-dark-900 hover:text-primary-600 transition">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M14 12V24h-5V12H7V8h2V5c0-3 2-5 6-5 1.5 0 2.5.1 3 .2v3.8h-2.3c-1.4 0-1.7.7-1.7 1.7V8h4l-.5 4h-3.5z" />
+        <div class="flex gap-4">
+          <a href="#" class="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-dark-900 flex items-center justify-center transition">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M14.601 16.748l.407-2.653h-2.544V12.37c0-.724.355-1.43 1.492-1.43h1.154V8.678a14.07 14.07 0 00-2.048-.178c-2.088 0-3.45 1.266-3.45 3.553v1.944H7.38v2.653h2.234V24h2.753v-7.252h2.234z" />
             </svg>
           </a>
-          <a href="#" class="text-dark-900 hover:text-primary-600 transition">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <a href="#" class="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-dark-900 flex items-center justify-center transition">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <circle cx="12" cy="12" r="4"></circle>
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
             </svg>
           </a>
-          <a href="#" class="text-dark-900 hover:text-primary-600 transition">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+          <a href="#" class="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-dark-900 flex items-center justify-center transition">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v13.5h5V8zm7.982 0h-4.968v13.5h4.969v-7.399c0-3.907 5.063-4.238 5.063 0v7.399h4.983v-9.398c0-7.307-8.275-7.017-10.047-3.758v-2.843z" />
             </svg>
           </a>
         </div>
@@ -473,5 +371,28 @@
     </div>
   </footer>
 
+  <script>
+    function openModal(id) { const m = document.getElementById(id); m.classList.remove('hidden'); m.classList.add('flex'); document.body.style.overflow = 'hidden'; }
+    function closeModal(id) { const m = document.getElementById(id); m.classList.add('hidden'); m.classList.remove('flex'); document.body.style.overflow = ''; }
+    function handleLogin(e) { e.preventDefault(); closeModal('loginModal'); }
+    function handleSignup(e) { e.preventDefault(); closeModal('signupModal'); }
+    function handleContact(e) { e.preventDefault(); closeModal('contactModal'); }
+    
+    // Fade-up animation
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); obs.unobserve(entry.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+    
+    // Smooth scrolling for hash links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) { targetElement.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+  </script>
 </body>
 </html>
