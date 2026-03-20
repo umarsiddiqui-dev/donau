@@ -39,7 +39,7 @@ const TrustBar = () => {
   return (
     <section className="py-10 border-y border-gray-100 bg-primary-50/50">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-wrap justify-center md:justify-between items-center gap-4 md:gap-6">
+        <div className="flex flex-col md:flex-row items-start md:items-center md:justify-between gap-y-6 gap-x-4">
           {trustItems.map((item, index) => (
             <div key={index} className="flex items-center gap-3 text-dark-900 font-medium text-xs sm:text-sm">
               <div className="w-8 h-8 rounded-full bg-white border border-primary-100 flex items-center justify-center shadow-sm flex-shrink-0">

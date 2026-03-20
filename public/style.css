@@ -485,8 +485,9 @@ footer {
   }
 
   .trust-items {
-    justify-content: center;
-    gap: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
   }
 
   .footer-grid {
