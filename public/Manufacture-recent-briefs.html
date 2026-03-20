@@ -31,25 +31,42 @@
             }
         }
     </script>
+    <style>
+        .nav-link { position: relative; }
+        .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:#3F8AE2; transition:width 0.3s ease; }
+        .nav-link.active::after { width:100%; }
+        .nav-link:hover::after { width:100%; }
+    </style>
 </head>
 <body>
 
-    <header>
-        <div class="container">
-            <a href="index.html" class="logo">
-                <img src="assets/logo.svg" alt="donau.ai">
-            </a>
-            <div class="nav-divider"></div>
-            <nav>
-                <ul>
-                    <li><a href="brands.html">Brands</a></li>
-                    <li><a href="manufacturers.html" class="active">Manufacturers</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </nav>
-            <button onclick="openModal('loginModal')" class="btn btn-primary" style="margin-left: auto;">Log In</button>
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md z-40 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+      <div class="flex items-center gap-8">
+        <a href="index.html">
+          <img src="assets/logo.svg" alt="Donau Logo" class="h-8 w-auto">
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="brands.html" class="nav-link text-sm font-medium text-gray-600 hover:text-gray-900">Brands</a>
+          <a href="manufacturers.html" class="nav-link active text-sm font-medium text-primary-600">Manufacturers</a>
+          <a href="contact.html" class="nav-link text-sm font-medium text-gray-600 hover:text-gray-900 tracking-wider">Contact</a>
         </div>
-    </header>
+      </div>
+      <div class="flex items-center gap-4">
+        <button onclick="openModal('loginModal')" class="btn-primary bg-[#3F8AE2] text-white text-sm font-semibold px-5 py-2 rounded-lg">Log In</button>
+        <button onclick="toggleMobileMenu()" class="md:hidden text-gray-600">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100 px-6 py-6 space-y-5">
+      <a href="brands.html" onclick="toggleMobileMenu()" class="block text-base font-medium text-gray-700 hover:text-primary-600">Brands</a>
+      <a href="manufacturers.html" onclick="toggleMobileMenu()" class="block text-base font-medium text-primary-600">Manufacturers</a>
+      <a href="contact.html" onclick="toggleMobileMenu()" class="block text-base font-medium text-gray-700 hover:text-primary-600">Contact</a>
+    </div>
+  </nav>
 
     <!-- Hero Section -->
     <section class="hero text-center">
@@ -250,6 +267,7 @@
   <script>
     function openModal(id) { const m = document.getElementById(id); m.classList.remove('hidden'); m.classList.add('flex'); document.body.style.overflow = 'hidden'; }
     function closeModal(id) { const m = document.getElementById(id); m.classList.add('hidden'); m.classList.remove('flex'); document.body.style.overflow = ''; }
+    function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
     
     function showToast(msg) {
       let t = document.getElementById('toast');
