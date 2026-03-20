@@ -5,6 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>donau.ai | Access Structured European Product Demand</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            200: '#bae0fd',
+                            300: '#7cc8fb',
+                            400: '#36aff7',
+                            500: '#0c95eb',
+                            600: '#0076c9',
+                            700: '#015da1',
+                            800: '#065086',
+                            900: '#0b436f',
+                        },
+                        dark: {
+                            900: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -21,7 +47,7 @@
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
             </nav>
-            <a href="manufacturers.html" class="btn btn-primary" style="margin-left: auto;">Log In</a>
+            <button onclick="openModal('loginModal')" class="btn btn-primary" style="margin-left: auto;">Log In</button>
         </div>
     </header>
 
@@ -31,7 +57,7 @@
             <h1>Access structured European product demand.</h1>
             <p>Receive verified briefs. Submit proposals. Grow your production pipeline.</p>
             <div class="hero-btns">
-                <a href="manufacturers.html" class="btn btn-primary">Join as a Manufacturer</a>
+                <button onclick="openModal('loginModal')" class="btn btn-primary">Join as a Manufacturer</button>
                 <a href="manufacturers.html" class="btn btn-secondary">Explore Briefs</a>
             </div>
         </div>
@@ -116,7 +142,7 @@
         <div class="container hero-content">
             <h2 style="font-size: 3rem; margin-bottom: 24px;">Ready to launch your business?</h2>
             <p style="margin-bottom: 40px;">The manufacturing infrastructure layer for European commerce.</p>
-            <a href="manufacturers.html" class="btn btn-primary">Join as a Manufacturer</a>
+            <button onclick="openModal('loginModal')" class="btn btn-primary">Join as a Manufacturer</button>
         </div>
     </section>
 
@@ -171,5 +197,66 @@
         </div>
     </footer>
 
+  <!-- MODALS -->
+  <div id="loginModal" class="fixed inset-0 z-[60] hidden items-center justify-center">
+    <div class="absolute inset-0 bg-dark-900/60 backdrop-blur-sm" onclick="closeModal('loginModal')"></div>
+    <div class="relative bg-white rounded-3xl md:rounded-[2rem] p-6 md:p-10 w-full max-w-sm md:max-w-md mx-4 shadow-2xl z-10 text-center">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-dark-900 mb-3">Create an account to continue</h2>
+      <p class="text-gray-500 mb-8 text-sm md:text-base leading-relaxed max-w-[340px] mx-auto">
+        Your progress is saved. Create an account to chat, view full details, and move forward.
+      </p>
+      
+      <div class="space-y-4 flex flex-col items-center">
+        <button onclick="closeModal('loginModal'); openModal('signupModal')" class="w-full bg-[#3F8AE2] text-white font-bold py-4 rounded-xl transition hover:bg-[#3577C8] shadow-lg shadow-blue-100 text-sm">
+          Create Account
+        </button>
+        <button onclick="closeModal('loginModal')" class="w-full text-gray-500 font-bold py-2 text-xs hover:text-dark-900 transition underline underline-offset-4">
+          Sign In
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="signupModal" class="fixed inset-0 z-[60] hidden items-center justify-center">
+    <div class="absolute inset-0 bg-dark-900/60 backdrop-blur-sm" onclick="closeModal('signupModal')"></div>
+    <div class="relative bg-white rounded-[2rem] p-8 w-full max-w-md mx-4 shadow-2xl z-10 text-center">
+      <button onclick="closeModal('signupModal')" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <h2 class="text-xl font-extrabold text-dark-900 mb-3">Join Donau</h2>
+      <p class="text-gray-500 mb-6 text-sm font-medium">Access structured European demand today.</p>
+      <form onsubmit="handleSignup(event)" class="space-y-3">
+        <input type="text" name="companyName" placeholder="Company Name" required class="w-full px-4 py-3 border border-gray-100 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-[13px]">
+        <input type="email" name="email" placeholder="Email" required class="w-full px-4 py-3 border border-gray-100 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-[13px]">
+        <input type="password" name="password" placeholder="Password" required class="w-full px-4 py-3 border border-gray-100 rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-primary-500 transition font-medium text-[13px]">
+        <button type="submit" class="w-full bg-[#3F8AE2] text-white font-bold py-3 rounded-xl transition hover:bg-[#3577C8] shadow-lg shadow-blue-100 text-[13px] mt-3">Create Account</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openModal(id) { const m = document.getElementById(id); m.classList.remove('hidden'); m.classList.add('flex'); document.body.style.overflow = 'hidden'; }
+    function closeModal(id) { const m = document.getElementById(id); m.classList.add('hidden'); m.classList.remove('flex'); document.body.style.overflow = ''; }
+    
+    function showToast(msg) {
+      let t = document.getElementById('toast');
+      if (!t) {
+        t = document.createElement('div');
+        t.id = 'toast';
+        t.className = 'fixed top-6 right-6 z-[70] bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg font-medium transform translate-x-[120%] transition-transform duration-300';
+        t.innerHTML = '<span id="toastMsg">Success!</span>';
+        document.body.appendChild(t);
+      }
+      document.getElementById('toastMsg').textContent = msg;
+      t.style.transform = 'translateX(0)';
+      setTimeout(() => { t.style.transform = 'translateX(120%)'; }, 3000);
+    }
+
+    async function handleSignup(e) { 
+      e.preventDefault(); 
+      showToast('Account created! Welcome to Donau.'); 
+      closeModal('signupModal');
+    }
+  </script>
 </body>
 </html>
