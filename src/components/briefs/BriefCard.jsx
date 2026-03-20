@@ -74,9 +74,12 @@ const BriefCard = ({
           <button className="hidden md:block px-6 py-2.5 border border-blue-200 text-primary-500 font-bold rounded-xl text-sm transition hover:bg-blue-50 whitespace-nowrap">
             Not Proceed
           </button>
-          <button className="w-full md:px-8 py-3.5 md:py-2.5 bg-[#3F8AE2] text-white font-bold rounded-xl text-sm transition hover:bg-[#3577C8] shadow-lg shadow-blue-100 whitespace-nowrap cursor-default">
+          <a 
+            href="/Manufacture-recent-briefs.html" 
+            className="w-full md:px-8 py-3.5 md:py-2.5 bg-[#3F8AE2] text-white font-bold rounded-xl text-sm transition hover:bg-[#3577C8] shadow-lg shadow-blue-100 whitespace-nowrap text-center"
+          >
             View Brief
-          </button>
+          </a>
           <button className="hidden md:block p-1 text-gray-300 hover:text-gray-600 transition ml-2">
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
